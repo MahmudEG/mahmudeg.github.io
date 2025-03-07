@@ -22,7 +22,6 @@ by: Mahmud
    
 3. **GLBP**: 
    
-
 # 2. Topology
 
 ![[Pasted image 20250307201636.png]]
