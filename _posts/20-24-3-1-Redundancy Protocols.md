@@ -1,12 +1,10 @@
 ---
-title: Redundancy Protocols
+title: Redundancy Protocols Lab
 date: 2025-03-07 19:50
-categories: Network
+categories: Networking
 tags:
-  - HSRP
-  - VRRP
-  - GLBP
   - Networking
+  - LAB
   - Cisco
   - eve-ng
 by: Mahmud
