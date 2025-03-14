@@ -43,7 +43,7 @@ Redundancy in networking refers to the practice of incorporating backup or dupli
         
     - Cisco proprietary, so it works only with Cisco devices.
    
-#### 2. **GLBP (Gateway Load Balancing Protocol)**
+### 2. **GLBP (Gateway Load Balancing Protocol)**
 
 - **Developed by:** Cisco (proprietary protocol).
     
