@@ -1,7 +1,7 @@
 ---
 title: Sticker Shop
 date: 2025-1-1 00:00:00
-categories: Cybersecurity
+categories: Cybersecurity Tryhackme
 tags:
   - THM
   - Writeups

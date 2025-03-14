@@ -1,7 +1,7 @@
 ---
 title: Day 16 The Wareville’s Key Vault grew three sizes that day.
 date: 2024-12-20 00:00:00
-categories: Cybersecurity
+categories: Cybersecurity Tryhackme
 tags:
   - THM
   - Writeups

@@ -1,7 +1,7 @@
 ---
 title: Day 10 He had a brain full of macros, and had shells in his soul.
 date: 2024-12-14 00:00:00
-categories: Cybersecurity
+categories: Cybersecurity Tryhackme
 tags:
   - Advent_of_cyber
   - THM

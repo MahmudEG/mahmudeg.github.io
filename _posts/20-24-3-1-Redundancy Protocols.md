@@ -1,13 +1,15 @@
 ---
 title: Redundancy Protocols Lab
-date: 2025-03-07 19:50
-categories: Networking
+description: LAB for studiy the diffrence between redundncy protocols 
+date: 2025-03-07 19:50 +0200
+categories: Networking  Protocols_Labs
 tags:
-  - Networking
+  - Networking 
   - LAB
   - Cisco
   - eve-ng
 by: Mahmud
+image: [ /assets/img/Pasted image 20250307201636.png ]
 ---
 # 1. Overview of Redundancy Protocols
 
