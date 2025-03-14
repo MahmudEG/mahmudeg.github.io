@@ -2,13 +2,10 @@
 
 # Check if a commit message is provided
 if [ -z "$1" ]; then
-  echo "Usage: ./deploy.sh \"commit message\""
+  echo "Usage: ./deploy.sh \"commit message\""de
   exit 1
 fi
 
-# Replace Google Analytics code (adjust the sed command as needed)
-# Example: Replace "UA-XXXXX-Y" with your new Google Analytics code
-sed -i 's/UA-XXXXX-Y/UA-NEW-CODE/g' path/to/your/file.html
 
 # Git commands
 git add .

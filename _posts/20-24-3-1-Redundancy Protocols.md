@@ -9,7 +9,7 @@ tags:
   - Cisco
   - eve-ng
 by: Mahmud
-image: [ /assets/img/Pasted image 20250307201636.png ]
+image: /assets/img/Pasted image 20250307201636.png 
 ---
 # 1. Overview of Redundancy Protocols
 
