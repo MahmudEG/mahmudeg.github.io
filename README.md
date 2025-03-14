@@ -1,5 +1,10 @@
 # Hi there
 
-## this is my personal blog
 
-![Blog link](mahmudeg.github.io)
+
+![Banner](/assets/about.webp)
+
+**This is My Personal Blog** ***[LINK](mahmudeg.github.io)***
+
+
+> i made it using Jekyll chirpy theme
