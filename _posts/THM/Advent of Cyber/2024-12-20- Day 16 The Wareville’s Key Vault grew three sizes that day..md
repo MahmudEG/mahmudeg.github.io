@@ -1,12 +1,13 @@
 ---
 title: Day 16 The Wareville’s Key Vault grew three sizes that day.
-date: 2024-12-20 00:00:00
+date: 2024-12-20 00:00:00 +0200
 categories: Cybersecurity Tryhackme
 tags:
   - THM
   - Writeups
   - Advent_of_cyber
 by: Mahmud
+published: false
 ---
 
 ## Learning Objectives
@@ -46,7 +47,7 @@ This is a security test where it’s assumed an attacker already has access to t
 1. Start the cloud lab and use the given credential
 2. when ask for authentication select **Ask Later**
 3. now you are in the azure dashboard
-   ![[Pasted image 20241227193531.png]]
+   ![](./assets/img/Pasted image 20241227193531.png){: .shadow }
    1. click on Azure CLI and select Bash
    2. the terminal will start
    3. the password is `R3c0v3r_s3cr3ts!` it can be found under `wvusr-backupware` when you use command 
@@ -72,4 +73,6 @@ az keyvault secret list --vault-name warevillesecrets
 ```shell-session
 az keyvault secret show --vault-name warevillesecrets --name aoc2024
 ```
+{: .nolineno }
+
 1. the content is `WhereIsMyMind1999`
