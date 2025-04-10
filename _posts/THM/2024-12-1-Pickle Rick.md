@@ -9,6 +9,7 @@ tags:
 by: Mahmud
 published: false
 ---
+
 1. First need to add the ip to `etc/hosts`
 2. now can access the website using `http://rick.thm`
 3. there is no thing in the page, but view in source mode can see user name `R1ckRul3s`
