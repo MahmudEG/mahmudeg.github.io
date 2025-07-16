@@ -1,6 +1,6 @@
 ---
-title: 
-description:  
+title: azure
+description:  azure
 date: 2025-07-016 10:00 +0200
 categories: [Cloud, Azure]
 tags:
