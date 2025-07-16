@@ -7,7 +7,7 @@ tags:
   - Writeups
   - Advent_of_cyber
 by: Mahmud
-published: false
+published: true
 ---
 
 ## Learning Objectives
