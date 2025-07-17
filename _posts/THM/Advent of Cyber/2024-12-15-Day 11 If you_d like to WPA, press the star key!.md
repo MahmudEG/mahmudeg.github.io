@@ -59,6 +59,7 @@ These techniques highlight the importance of securing Wi-Fi networks with strong
 #### Practical
 1. in SSH session run `iw dev` to show wireless devices and there configurations
 2. you will see 
+
 ```shell-session
 glitch@wifi:~$ iw dev
 phy#2
@@ -70,7 +71,8 @@ phy#2
                 txpower 20.00 dBm
 
 ```
-{: .nolineno }
+
+
 
 The device/interface `wlan2` is available to us, and there are two important details to take away from this output that will be useful to us:
 
@@ -78,7 +80,9 @@ The device/interface `wlan2` is available to us, and there are two important det
 2. The `type` is shown as **managed**. This is the standard mode used by most Wi-Fi devices (like laptops, phones, etc.) to connect to Wi-Fi networks. In managed mode, the device acts as a client, connecting to an access point to join a network. There is another mode called **monitor**, which we will discuss shortly.
 3. now let's scan for available wifi using `sudo iw dev wlan2 scan`
 4. you will see
+
 ```shell-session
+```
 glitch@wifi:~$ sudo iw dev wlan2 scan
 BSS 02:00:00:00:00:00(on wlan2)
         last seen: 824.796s [boottime]
@@ -105,7 +109,7 @@ BSS 02:00:00:00:00:00(on wlan2)
                  * Extended Channel Switching
                  * Operating Mode Notification
 glitch@wifi:~$ 
-```{: .nolineno }
+```
 
 5. as we can see this is access point because of
 
