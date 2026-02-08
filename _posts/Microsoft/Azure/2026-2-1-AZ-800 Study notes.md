@@ -17,7 +17,7 @@ published: true
 
 ## Deploy and manage identity infrastructure
 ---
-### Define AD DS – Notes
+#### Define AD DS
 
 **Active Directory Domain Services (AD DS)** is the foundation of enterprise networks that run Windows.  
 It provides a **centralized, secure directory** that stores information about **users, computers, and groups**, and controls how they authenticate and access resources.
@@ -35,7 +35,7 @@ The AD DS database is stored in a single file called **`Ntds.dit`**, but it is l
 
 ---
 
-### What AD DS Is Used For
+#### What AD DS Is Used For
 
 AD DS supports many enterprise-level operations, not just user logons:
 
@@ -52,7 +52,7 @@ AD DS supports many enterprise-level operations, not just user logons:
 
 ---
 
-### AD DS Components
+#### AD DS Components
 
 AD DS consists of:
 
@@ -65,9 +65,9 @@ Understanding both is required to design, manage, and troubleshoot AD environmen
 
 ---
 
-### Logical Components (Structure of AD DS)
+#### Logical Components (Structure of AD DS)
 
-### Partitions (Naming Contexts)
+#### Partitions (Naming Contexts)
 
 Even though AD DS uses one database file (`Ntds.dit`), data is logically separated into partitions.
 
@@ -91,7 +91,7 @@ Even though AD DS uses one database file (`Ntds.dit`), data is logically separat
 
 ---
 
-#### Schema
+###### Schema
 
 The schema is the **blueprint** of Active Directory.
 
@@ -106,7 +106,7 @@ The schema is the **blueprint** of Active Directory.
 
 ---
 
-### Domain
+#### Domain
 
 A **domain** is a logical administrative container.
 
@@ -123,7 +123,7 @@ Domains are the **core unit of administration** in AD DS.
 
 ---
 
-### Domain Tree
+#### Domain Tree
 
 A **domain tree** is a hierarchical structure of domains that:
 
@@ -143,7 +143,7 @@ contoso.com
 
 ---
 
-### Forest
+#### Forest
 
 A **forest** is the highest-level AD DS structure.
 
@@ -162,7 +162,7 @@ A **forest** is the highest-level AD DS structure.
 
 ---
 
-### OU vs Container (Important Comparison)
+#### OU vs Container (Important Comparison)
 
 |Feature|OU|Container|
 |---|---|---|
@@ -178,7 +178,7 @@ Containers are basic organizational objects with limited functionality.
 
 ## Physical Components (Deployment of AD DS)
 
-### Domain Controllers (DCs)
+#### Domain Controllers (DCs)
 
 A domain controller:
 
@@ -193,7 +193,7 @@ A domain controller:
 
 ---
 
-### AD DS Data Store
+#### AD DS Data Store
 
 - Database file: **`Ntds.dit`**
     
@@ -208,7 +208,7 @@ C:\Windows\NTDS
 
 ---
 
-### Global Catalog Server
+#### Global Catalog Server
 
 A **Global Catalog (GC)** server is a domain controller that:
 
@@ -221,7 +221,7 @@ A **Global Catalog (GC)** server is a domain controller that:
 
 ---
 
-### Writable DC vs RODC (Comparison)
+#### Writable DC vs RODC (Comparison)
 
 |Feature|Writable DC|RODC|
 |---|---|---|
@@ -235,7 +235,7 @@ RODCs are used where physical security or local IT expertise is limited.
 
 ---
 
-### Sites vs Domains (Conceptual Difference)
+#### Sites vs Domains (Conceptual Difference)
 
 |Aspect|Domain|Site|
 |---|---|---|
@@ -246,7 +246,7 @@ RODCs are used where physical security or local IT expertise is limited.
 
 ---
 
-### Subnets
+#### Subnets
 
 - A subnet is a range of IP addresses
     
@@ -259,14 +259,14 @@ RODCs are used where physical security or local IT expertise is limited.
 
 ---
 
-### Define Users, Groups, and Computers – Notes
+#### Define Users, Groups, and Computers – Notes
 
 AD DS doesn’t only consist of high-level structures like forests and domains.  
 At the operational level, you mainly work with **users, service accounts, groups, and computers**.
 
 ---
 
-### User Objects
+#### User Objects
 
 Every person who needs access to network resources must have a **user account** in AD DS.
 
@@ -294,7 +294,7 @@ The **username and password** are the sign-in credentials, but most access decis
 
 ---
 
-### Managing User Accounts
+#### Managing User Accounts
 
 User objects can be created and managed using multiple tools:
 
@@ -314,7 +314,7 @@ User objects can be created and managed using multiple tools:
 
 ---
 
-### Service Accounts – Why They Exist
+#### Service Accounts – Why They Exist
 
 Many applications install **services** that:
 
@@ -342,7 +342,7 @@ Types of service accounts:
 
 ---
 
-### Problems with Traditional Domain Service Accounts
+#### Problems with Traditional Domain Service Accounts
 
 Using a normal domain user account as a service account causes issues:
 
@@ -359,7 +359,7 @@ This is why **managed service accounts** exist.
 
 ---
 
-### Managed Service Accounts (MSA)
+#### Managed Service Accounts (MSA)
 
 A **Managed Service Account** is a special AD object designed to run services securely.
 
@@ -379,7 +379,7 @@ Limitation:
 
 ---
 
-### Group Managed Service Accounts (gMSA)
+#### Group Managed Service Accounts (gMSA)
 
 **gMSA** extends MSA functionality to **multiple servers**.
 
@@ -407,7 +407,7 @@ Benefits:
 
 ---
 
-#### gMSA Requirements
+###### gMSA Requirements
 
 Before creating a gMSA:
 
@@ -422,7 +422,7 @@ Add-KdsRootKey -EffectiveImmediately
 
 ---
 
-#### Creating a gMSA
+###### Creating a gMSA
 
 Use PowerShell:
 
@@ -438,7 +438,7 @@ This defines which servers are allowed to retrieve the managed password.
 
 ---
 
-### Delegated Managed Service Accounts (dMSA) – Windows Server 2025
+#### Delegated Managed Service Accounts (dMSA) – Windows Server 2025
 
 Windows Server 2025 introduces **Delegated Managed Service Accounts (dMSA)**.
 
@@ -462,7 +462,7 @@ Key characteristics:
 
 ---
 
-#### gMSA vs dMSA (Important Comparison)
+###### gMSA vs dMSA (Important Comparison)
 
 |Feature|gMSA|dMSA|
 |---|---|---|
@@ -478,7 +478,7 @@ Key characteristics:
 
 ---
 
-### Group Objects
+#### Group Objects
 
 Groups are used to **simplify administration**.
 
@@ -507,7 +507,7 @@ This approach:
 
 ---
 
-### Group Types
+#### Group Types
 
 There are **two group types** in Windows Server.
 
@@ -520,7 +520,7 @@ Security groups can also be used for email distribution, but distribution groups
 
 ---
 
-### Group Scopes
+#### Group Scopes
 
 Group scope defines:
 
@@ -529,7 +529,7 @@ Group scope defines:
 - Where members can come from
     
 
-#### Group Scope Comparison
+###### Group Scope Comparison
 
 |Scope|Where Permissions Apply|Members|
 |---|---|---|
@@ -551,7 +551,7 @@ Usage patterns:
 
 ---
 
-### Computer Objects
+#### Computer Objects
 
 Computers in AD DS are also **security principals**, just like users.
 
@@ -570,7 +570,7 @@ A computer account:
 
 ---
 
-### Computer Account Lifecycle
+#### Computer Account Lifecycle
 
 After a computer is joined to the domain, admins typically:
 
@@ -585,7 +585,7 @@ After a computer is joined to the domain, admins typically:
 
 ---
 
-### Computers Container
+#### Computers Container
 
 When a computer joins the domain:
 
@@ -607,7 +607,7 @@ Important facts:
 
 ---
 
-### Computers Container vs OU
+#### Computers Container vs OU
 
 |Feature|Computers Container|OU|
 |---|---|---|
@@ -621,7 +621,7 @@ Important facts:
 
 ---
 
-### Key Notes to Remember
+#### Key Notes to Remember
 
 - Users and computers are **security principals**
     
