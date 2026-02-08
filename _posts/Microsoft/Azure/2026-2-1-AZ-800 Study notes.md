@@ -259,3 +259,383 @@ RODCs are used where physical security or local IT expertise is limited.
 
 ---
 
+### Define Users, Groups, and Computers – Notes
+
+AD DS doesn’t only consist of high-level structures like forests and domains.  
+At the operational level, you mainly work with **users, service accounts, groups, and computers**.
+
+---
+
+### User Objects
+
+Every person who needs access to network resources must have a **user account** in AD DS.
+
+A **user account**:
+
+- Allows authentication to the domain
+    
+- Grants access to network resources
+    
+- Acts as a **security principal**
+    
+
+Each user account contains:
+
+- Username
+    
+- Password
+    
+- Group memberships
+    
+- Additional attributes (department, title, logon restrictions, etc.)
+    
+
+The **username and password** are the sign-in credentials, but most access decisions are based on **group membership**, not the user directly.
+
+---
+
+### Managing User Accounts
+
+User objects can be created and managed using multiple tools:
+
+- Active Directory Administrative Center
+    
+- Active Directory Users and Computers (ADUC)
+    
+- Windows Admin Center
+    
+- Windows PowerShell
+    
+- `dsadd` command-line tool
+    
+
+> Practical note:  
+> In real environments, **PowerShell** and **AD Administrative Center** are preferred for consistency and automation.
+
+---
+
+### Service Accounts – Why They Exist
+
+Many applications install **services** that:
+
+- Start automatically with the server
+    
+- Run in the background
+    
+- Require authentication to access resources
+    
+
+To do this, services use **service accounts**.
+
+Types of service accounts:
+
+- Local accounts:
+    
+    - Local System
+        
+    - Network Service
+        
+    - Local Service
+        
+- Domain-based accounts (stored in AD DS)
+    
+
+---
+
+### Problems with Traditional Domain Service Accounts
+
+Using a normal domain user account as a service account causes issues:
+
+- Passwords must be managed manually
+    
+- Hard to track where the account is being used
+    
+- Service Principal Name (SPN) management is complex
+    
+- High risk if credentials are compromised
+    
+
+This is why **managed service accounts** exist.
+
+---
+
+### Managed Service Accounts (MSA)
+
+A **Managed Service Account** is a special AD object designed to run services securely.
+
+MSA benefits:
+
+- Automatic password management
+    
+- Simplified SPN management
+    
+- Reduced administrative overhead
+    
+
+Limitation:
+
+- Can only be used on **one server**
+    
+
+---
+
+### Group Managed Service Accounts (gMSA)
+
+**gMSA** extends MSA functionality to **multiple servers**.
+
+Used when:
+
+- The same service runs on more than one server
+    
+- Examples:
+    
+    - IIS server farms
+        
+    - NLB clusters
+        
+    - SQL Server farms
+        
+
+Benefits:
+
+- Automatic password rotation
+    
+- Simplified SPN handling
+    
+- Same account across multiple machines
+    
+
+---
+
+#### gMSA Requirements
+
+Before creating a gMSA:
+
+- A **KDS root key** must exist in the domain
+    
+
+Command to create it:
+
+```powershell
+Add-KdsRootKey -EffectiveImmediately
+```
+
+---
+
+#### Creating a gMSA
+
+Use PowerShell:
+
+```powershell
+New-ADServiceAccount -Name LondonSQLFarm `
+-PrincipalsAllowedToRetrieveManagedPassword SEA-SQL1, SEA-SQL2, SEA-SQL3
+```
+
+This defines which servers are allowed to retrieve the managed password.
+
+> Exam note:  
+> gMSA = **multi-server service account**
+
+---
+
+### Delegated Managed Service Accounts (dMSA) – Windows Server 2025
+
+Windows Server 2025 introduces **Delegated Managed Service Accounts (dMSA)**.
+
+Purpose:
+
+- Replace traditional service accounts
+    
+- Use **machine identities instead of user passwords**
+    
+- Prevent credential harvesting attacks
+    
+
+Key characteristics:
+
+- Authentication is tied to the device identity
+    
+- Original service account passwords are disabled
+    
+- Uses fully randomized, managed keys
+    
+
+---
+
+#### gMSA vs dMSA (Important Comparison)
+
+|Feature|gMSA|dMSA|
+|---|---|---|
+|Servers|Multiple|Single|
+|Managed by|Active Directory|Administrator|
+|Password rotation|Automatic|Automatic|
+|Machine-bound|No|Yes|
+|Credential Guard integration|Limited|Strong|
+|Credential theft risk|Possible|Very low|
+
+> Security takeaway:  
+> dMSA provides **stronger protection** against credential theft.
+
+---
+
+### Group Objects
+
+Groups are used to **simplify administration**.
+
+Instead of:
+
+- Assigning permissions to users individually
+    
+
+You:
+
+- Assign permissions to groups
+    
+- Add or remove users from groups
+    
+
+This approach:
+
+- Scales better
+    
+- Is easier to manage
+    
+- Reduces errors
+    
+
+> Best practice: **Never assign permissions directly to users**
+
+---
+
+### Group Types
+
+There are **two group types** in Windows Server.
+
+|Group Type|Purpose|
+|---|---|
+|Security|Used to assign permissions|
+|Distribution|Used for email only|
+
+Security groups can also be used for email distribution, but distribution groups **cannot** be used for security.
+
+---
+
+### Group Scopes
+
+Group scope defines:
+
+- Where permissions can be assigned
+    
+- Where members can come from
+    
+
+#### Group Scope Comparison
+
+|Scope|Where Permissions Apply|Members|
+|---|---|---|
+|Local|Local computer only|Any domain|
+|Domain Local|Local domain|Any domain|
+|Global|Anywhere in forest|Local domain only|
+|Universal|Anywhere in forest|Any domain|
+
+Usage patterns:
+
+- **Global groups** → users with similar roles
+    
+- **Domain Local groups** → resource permissions
+    
+- **Universal groups** → multi-domain environments
+    
+
+> Exam concept to remember: **AGDLP / AGUDLP**
+
+---
+
+### Computer Objects
+
+Computers in AD DS are also **security principals**, just like users.
+
+A computer account:
+
+- Has a name and password
+    
+- Automatically changes its password
+    
+- Authenticates with the domain
+    
+- Can be a member of groups
+    
+- Can receive Group Policy
+    
+
+---
+
+### Computer Account Lifecycle
+
+After a computer is joined to the domain, admins typically:
+
+- Configure computer properties
+    
+- Move it between OUs
+    
+- Apply GPOs
+    
+- Rename, reset, disable, or delete the account
+    
+
+---
+
+### Computers Container
+
+When a computer joins the domain:
+
+- It is placed in the **Computers container** by default
+    
+
+Important facts:
+
+- DN: `CN=Computers`
+    
+- It is **not an OU**
+    
+- You cannot:
+    
+    - Create OUs inside it
+        
+    - Link GPOs to it
+        
+
+---
+
+### Computers Container vs OU
+
+|Feature|Computers Container|OU|
+|---|---|---|
+|Object type|Container|OU|
+|GPO support|No|Yes|
+|Delegation|No|Yes|
+|Subdivision|No|Yes|
+
+> Best practice:  
+> Create **custom OUs** for computers and move them out of the Computers container.
+
+---
+
+### Key Notes to Remember
+
+- Users and computers are **security principals**
+    
+- Group membership controls access
+    
+- Use groups instead of individual permissions
+    
+- Prefer managed service accounts over traditional service accounts
+    
+- gMSA = multiple servers
+    
+- dMSA = stronger security, machine-bound
+    
+- Computers container ≠ OU
+    
+
+---
