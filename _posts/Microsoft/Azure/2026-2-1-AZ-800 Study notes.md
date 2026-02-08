@@ -1,25 +1,23 @@
 ---
-title: AZ-800 Study notes
+title: "AZ-800: Administering Windows Server Hybrid Core Infrastructure"
 description: Administering Windows Server Hybrid Core Infrastructure
 date: 2026-2-1 7:00 +0200
-categories: [Azure, AZ-800]
+categories:
+  - Azure
+  - AZ-800
 tags:
   - Microsoft
   - Azure
   - Cloud
   - Windows
 by: Mahmud
-image: 
+image:
 published: true
 ---
-Perfect 👍 that’s a very good rule actually — **tables only when there’s comparison**.  
-I’ll keep the rest as **natural notes**, like you’re reading and writing for yourself.
 
-Below is the **refined version of the same page**, adjusted exactly to that rule.
-
+## Deploy and manage identity infrastructure
 ---
-
-## Define AD DS – Notes
+### Define AD DS – Notes
 
 **Active Directory Domain Services (AD DS)** is the foundation of enterprise networks that run Windows.  
 It provides a **centralized, secure directory** that stores information about **users, computers, and groups**, and controls how they authenticate and access resources.
@@ -37,7 +35,7 @@ The AD DS database is stored in a single file called **`Ntds.dit`**, but it is l
 
 ---
 
-## What AD DS Is Used For
+### What AD DS Is Used For
 
 AD DS supports many enterprise-level operations, not just user logons:
 
@@ -54,7 +52,7 @@ AD DS supports many enterprise-level operations, not just user logons:
 
 ---
 
-## AD DS Components
+### AD DS Components
 
 AD DS consists of:
 
@@ -67,7 +65,7 @@ Understanding both is required to design, manage, and troubleshoot AD environmen
 
 ---
 
-## Logical Components (Structure of AD DS)
+### Logical Components (Structure of AD DS)
 
 ### Partitions (Naming Contexts)
 
@@ -93,7 +91,7 @@ Even though AD DS uses one database file (`Ntds.dit`), data is logically separat
 
 ---
 
-### Schema
+#### Schema
 
 The schema is the **blueprint** of Active Directory.
 
@@ -261,24 +259,3 @@ RODCs are used where physical security or local IT expertise is limited.
 
 ---
 
-## Key Notes to Remember
-
-- AD DS is the backbone of Windows enterprise environments
-    
-- `Ntds.dit` is the core database file
-    
-- Forest = security boundary
-    
-- Domain = administrative and replication boundary
-    
-- OUs are used for GPO and delegation
-    
-- Containers cannot have GPOs
-    
-- Sites control replication, not security
-    
-
----
-
-This is now the **final style we’ll use going forward**.  
-👉 Send the **next page** when ready, and we’ll continue page by page.
