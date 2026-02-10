@@ -1,6 +1,6 @@
 ---
 title: 2- Deploy and manage identity infrastructure (AZ‑800)
-description: Note1
+description: Note2
 date: 2026-2-1 7:00 +0200
 categories:
   - Azure
@@ -11,7 +11,7 @@ tags:
   - Cloud
   - Windows
 by: Mahmud
-image:
+image: https://ipspecialist.net/wp-content/uploads/2023/10/az-800-administering-windows-server-hybrid-core-infrastructure-course.png
 published: true
 ---
 ## Introduction to AD DS
