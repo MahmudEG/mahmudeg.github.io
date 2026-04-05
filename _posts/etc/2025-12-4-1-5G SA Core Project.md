@@ -12,7 +12,7 @@ tags:
   - prometus
   - grafana
 by: Mahmud
-image: assets/img/5G topology.png
+image: https://media.licdn.com/dms/image/v2/D4D2DAQFDF7rUOWMJzQ/profile-treasury-image-shrink_1280_1280/B4DZ1dBDXsK4AQ-/0/1775382051453?e=1775988000&v=beta&t=sVAlf7WY9Qc6zstBWxTQVkcGMRYTriIFri_t2nvNBsA
 published: true
 ---
 ## Introduction
