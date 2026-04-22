@@ -1,7 +1,7 @@
 ---
 title: Fix Windows UUID/SID Conflict in EVE-NG Labs (Domain Join Issue)
 description: " Problem: When cloning Windows Server VMs in EVE-NG, all clones share the same SID and Machine GUID. This causes Active Directory to reject domain joins with a “UUID matches another server” error."
-date: 2026-4-22 19:50 +0200
+date: 2026-4-21 19:50 +0200
 categories:
   - Networking
 tags:
