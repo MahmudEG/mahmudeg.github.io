@@ -1,10 +1,10 @@
 ---
-title: 2- Deploy and manage identity infrastructure (AZ‑800)
-description: Note2
+title: "AZ-800 Study Cram — Part 2: Deploy and Manage Identity Infrastructure"
+description: Condensed exam notes covering AD DS sites and replication, Group Policy, and identity protection for the AZ-800 exam.
 date: 2026-2-1 7:00 +0200
 categories:
-  - Azure
-  - AZ-800
+  - Microsoft
+  - Study Crams
 tags:
   - Microsoft
   - Azure

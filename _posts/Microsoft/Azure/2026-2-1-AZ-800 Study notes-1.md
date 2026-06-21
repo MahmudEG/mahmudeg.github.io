@@ -1,10 +1,10 @@
 ---
-title: 1- Deploy and manage identity infrastructure (AZ‑800)
-description: Note1
+title: "AZ-800 Study Cram — Part 1: Deploy and Manage Identity Infrastructure"
+description: Condensed exam notes covering AD DS deployment, hybrid identity with Entra Connect, and FSMO roles for the AZ-800 exam.
 date: 2026-2-1 7:00 +0200
 categories:
-  - Azure
-  - AZ-800
+  - Microsoft
+  - Study Crams
 tags:
   - Microsoft
   - Azure

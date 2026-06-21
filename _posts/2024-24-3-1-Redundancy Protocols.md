@@ -1,8 +1,8 @@
 ---
-title: Redundancy Protocols Lab
-description: LAB for studiy the diffrence between redundncy protocols 
+title: "Redundancy Protocols Lab: STP, HSRP, and VRRP in EVE-NG"
+description: Hands-on lab comparing Spanning Tree, HSRP, and VRRP behavior in a multi-switch topology built in EVE-NG.
 date: 2025-03-07 19:50 +0200
-categories: [Networking,  Protocols Labs]
+categories: [Labs & Projects, Networking]
 tags:
   - Networking 
   - LAB
