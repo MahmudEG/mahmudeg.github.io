@@ -16,7 +16,7 @@ timezone: Africa/Tripoli
 
 title: Mahmud's Blog # the main title
 
-tagline: Hybrid Infrastructure & Security — real labs, real problems, from production Microsoft environments # it will display as the subtitle
+tagline: Hybrid infrastructure and security labs from Microsoft production environments # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   Hands-on labs, real-world troubleshooting, and field notes from a Microsoft hybrid infrastructure engineer — Windows Server, Active Directory, Azure, Entra ID, and Zero Trust.
