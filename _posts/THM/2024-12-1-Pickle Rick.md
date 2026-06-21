@@ -7,6 +7,7 @@ tags:
   - Writeups
   - Advent_of_cyber
 by: Mahmud
+image: https://tryhackme-images.s3.amazonaws.com/room-icons/9f2571d109d57c22e07e36beaad0d64c.png
 published: false
 ---
 

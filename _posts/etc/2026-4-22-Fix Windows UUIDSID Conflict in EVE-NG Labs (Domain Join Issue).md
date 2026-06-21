@@ -11,7 +11,7 @@ tags:
   - EVE-NG
   - Lab
 by: Mahmud
-image:
+image: https://www.thomasmaurer.ch/wp-content/uploads/2019/07/Windows-Server-2019-Active-Directory.jpg
 published: true
 ---
 

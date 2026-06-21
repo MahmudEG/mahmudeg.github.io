@@ -6,6 +6,7 @@ tags:
   - THM
   - Writeups
 by: Mahmud
+image: https://tryhackme-images.s3.amazonaws.com/room-icons/4a8ef35db7c497bc4e4e8c40de52ebc9.png
 ---
 
 we need to find the flag in `http://10.10.206.150:8080/flag.txt`

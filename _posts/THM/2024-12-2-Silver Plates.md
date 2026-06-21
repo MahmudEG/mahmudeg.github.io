@@ -7,6 +7,7 @@ tags:
   - Writeups
   - Advent_of_cyber
 by: Mahmud
+image: https://tryhackme-images.s3.amazonaws.com/room-icons/silverplates.png
 published: false
 ---
 - project manger at `silverpeas`
