@@ -1,0 +1,219 @@
+---
+title: "Windows Server Hardening: 10 Controls That Actually Stop Attackers"
+description: "A practical, production-tested Windows Server hardening checklist — LSA Protection, SMB signing, NTLM and LDAP hardening, RDP lockdown, and admin tiering — with the PowerShell and GPO settings to enforce each one."
+date: 2026-07-05 09:00 +0200
+categories: [Microsoft, Labs & Projects]
+tags:
+  - Windows Server
+  - Active Directory
+  - Security
+  - Hardening
+  - Group Policy
+  - Zero Trust
+by: Mahmud
+image: https://learn.microsoft.com/en-us/windows-server/security/media/windows-server-security-baselines.png
+published: true
+---
+ 
+## Why Hardening, Not Just Patching
+ 
+Patching closes known holes. Hardening removes the *configuration* an attacker relies on once they land — the flat local admin passwords, the credentials sitting readable in memory, the legacy protocols nobody turned off. In almost every breach report I read, the initial foothold is boring (phishing, an exposed RDP port), but the *escalation* is a hardening failure: pass-the-hash across identical local admins, NTLM relay to a domain controller, a Kerberoastable service account with a weak password.
+ 
+This post is the checklist I actually apply to Windows Server 2019/2022 domain members and domain controllers. Every item includes the setting and a way to verify it. Test all of it in a pilot OU before you push it domain-wide — some of these controls break legacy agents (I learned that the hard way with LSA Protection).
+ 
+---
+ 
+## Lab / Environment Assumptions
+ 
+- **Domain Controllers:** Windows Server 2019 or 2022, functional level 2016+
+- **Members:** Windows Server 2019/2022
+- **Tooling:** Group Policy Management Console (GPMC), RSAT, PowerShell as Domain Admin
+- **Baselines:** Microsoft Security Compliance Toolkit (SCT) downloaded
+- **Rule:** Pilot OU first, then rings — never straight to production
+---
+ 
+## 1. Start From a Microsoft Security Baseline
+ 
+Don't hand-craft hundreds of registry values. Microsoft publishes hardened GPO baselines in the **Security Compliance Toolkit (SCT)** for each Windows Server version. Import them, then adjust for your environment rather than starting from a blank policy.
+ 
+```powershell
+# After downloading the Security Compliance Toolkit and the
+# Windows Server 2022 baseline, import the GPOs:
+.\Baseline-LocalInstall.ps1 -WindowsServerDC   # for domain controllers
+.\Baseline-LocalInstall.ps1 -WindowsServerMember
+```
+ 
+Use the included **Policy Analyzer** tool to diff the baseline against your current GPOs so you can see exactly what will change before it hits users. The baseline gives you 80% of the hardening in one import — the items below are the high-value additions and the ones people most often miss.
+ 
+---
+ 
+## 2. Enable LSA Protection (RunAsPPL)
+ 
+The Local Security Authority (LSASS) holds credential material in memory. Running it as a **Protected Process Light** blocks tools like Mimikatz from reading it.
+ 
+```powershell
+New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" `
+  -Name "RunAsPPL" -Value 1 -PropertyType DWORD -Force
+```
+ 
+On Windows Server 2022 you can also enable it via GPO: **Computer Configuration → Administrative Templates → System → Local Security Authority → Configure LSASS to run as a protected process**.
+ 
+> **Warning:** Anything that injects a DLL into LSASS — some MFA agents, EDR products, and VPN SSO clients — can break silently. Pilot this and confirm every third-party auth product is PPL-compatible before rolling out.
+{: .prompt-warning }
+ 
+Verify after reboot:
+ 
+```powershell
+Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" -Name RunAsPPL
+```
+ 
+---
+ 
+## 3. Deploy Windows LAPS to Kill Shared Local Admin Passwords
+ 
+Identical local `Administrator` passwords across machines are the single biggest lateral-movement enabler. **Windows LAPS v2** (built into Server 2019+) rotates each machine's local admin password and stores it encrypted in AD.
+ 
+```powershell
+# Extend the AD schema (run once, as Schema Admin)
+Update-LapsADSchema
+ 
+# Grant computers the right to write their managed password
+Set-LapsADComputerSelfPermission -Identity "OU=Servers,DC=corp,DC=local"
+```
+ 
+Then enable the LAPS policy via GPO and set password complexity + rotation age (30 days is a reasonable default). I wrote a full walkthrough in the [Windows LAPS v2 lab](/posts/) if you want the step-by-step.
+ 
+---
+ 
+## 4. Enforce SMB Signing and Disable SMBv1
+ 
+SMBv1 is deprecated, wormable (WannaCry, NotPetya), and has no business running anywhere. Remove it. Then require **SMB signing** to block NTLM relay over SMB.
+ 
+```powershell
+# Remove SMBv1 entirely
+Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol -NoRestart
+ 
+# Require SMB signing (server + client)
+Set-SmbServerConfiguration -RequireSecuritySignature $true -Force
+Set-SmbClientConfiguration -RequireSecuritySignature $true -Force
+```
+ 
+Via GPO: **Microsoft network server: Digitally sign communications (always) = Enabled**.
+ 
+---
+ 
+## 5. Harden NTLM (and Start Auditing It Out)
+ 
+NTLM relay attacks remain one of the most reliable paths to domain compromise. You can't always remove NTLM overnight, so start by **auditing** where it's used, then restrict it.
+ 
+Set **Network security: Restrict NTLM: Audit NTLM authentication in this domain** to log usage, review the events, then move toward **Deny** for servers that don't need it. At minimum, set the **LmCompatibilityLevel** to refuse LM and NTLMv1:
+ 
+```powershell
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" `
+  -Name "LmCompatibilityLevel" -Value 5
+# 5 = Send NTLMv2 only, refuse LM & NTLM
+```
+ 
+---
+ 
+## 6. Enforce LDAP Signing and Channel Binding on Domain Controllers
+ 
+Unsigned LDAP lets an attacker relay authentication straight to a DC. Microsoft now recommends requiring LDAP signing and LDAP channel binding.
+ 
+Via GPO on the **Default Domain Controllers Policy**:
+ 
+- **Domain controller: LDAP server signing requirements = Require signing**
+- **Domain controller: LDAP server channel binding token requirements = Always**
+```powershell
+# Verify signing is enforced (2 = Require signing)
+Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Parameters" `
+  -Name "LDAPServerIntegrity"
+```
+ 
+Audit first: check DC event log for **Event ID 2889** (clients making unsigned binds) so you know what breaks before you enforce.
+ 
+---
+ 
+## 7. Lock Down RDP
+ 
+RDP is the most common initial-access vector for exposed servers. Never publish it directly to the internet — put it behind a VPN or an RD Gateway. Then harden it:
+ 
+| Setting | Value |
+|---|---|
+| Network Level Authentication (NLA) | **Required** |
+| Security Layer | **TLS** |
+| Encryption Level | **High / FIPS** |
+| Allow logon accounts | Restricted admin group only, **never** Domain Admins on member servers |
+ 
+```powershell
+# Require NLA
+Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" `
+  -Name "UserAuthentication" -Value 1
+```
+ 
+Add high-privilege accounts to **Deny log on through Remote Desktop Services** where they shouldn't be interactively logging into member servers.
+ 
+---
+ 
+## 8. Implement Admin Tiering (Stop DA on Workstations)
+ 
+Tiering is a design control, not a single setting, but it stops the most damaging escalation path: a Domain Admin logging into a compromised Tier-2 workstation and leaving reusable credentials in memory.
+ 
+- **Tier 0:** Domain controllers, ADFS, PKI, identity systems — admins here *never* log into anything lower.
+- **Tier 1:** Member servers and applications.
+- **Tier 2:** Workstations.
+Enforce with **User Rights Assignment** GPOs using the `Deny log on` rights so Tier-0 accounts physically cannot authenticate to Tier-1/2 machines. Pair with dedicated Privileged Access Workstations (PAWs) for admin work.
+ 
+---
+ 
+## 9. Turn On the Security Controls You Already Own
+ 
+Windows Server ships with strong controls that are simply off by default:
+ 
+- **Credential Guard** — virtualization-based protection for secrets (Server 2019+ with the right hardware/VBS).
+- **Microsoft Defender + Attack Surface Reduction (ASR) rules** — block credential theft, Office child processes, and living-off-the-land binaries.
+- **Windows Defender Application Control (WDAC)** or AppLocker — allow-listing on Tier-0 servers.
+```powershell
+# Example ASR rule: block credential stealing from LSASS
+Add-MpPreference -AttackSurfaceReductionRules_Ids `
+  9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 `
+  -AttackSurfaceReductionRules_Actions Enabled
+```
+ 
+---
+ 
+## 10. Fix Audit Logging Before You Need It
+ 
+If a control fails or an incident happens, logs are the difference between a two-hour investigation and a two-week one. The default audit policy is inadequate. Enable an **Advanced Audit Policy** baseline via GPO covering at minimum:
+ 
+- Logon/Logoff (success + failure)
+- Account Logon → Kerberos & credential validation
+- Account Management (user/group changes)
+- DS Access (directory service changes on DCs)
+- Detailed Tracking → Process Creation (with command-line logging enabled)
+```powershell
+# Enable command-line logging in process creation events (4688)
+New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit" `
+  -Name "ProcessCreationIncludeCmdLine_Enabled" -Value 1 -PropertyType DWORD -Force
+```
+ 
+Then ship those logs off the box to a SIEM — a local log an attacker can clear is worthless.
+ 
+---
+ 
+## Verification: Prove It Actually Applied
+ 
+Hardening you didn't verify is hardening you don't have. After deployment:
+ 
+1. Run **`gpresult /h report.html`** on a target server to confirm the GPOs applied.
+2. Use **Microsoft Policy Analyzer** to diff live config against the baseline.
+3. Re-scan with a tool like **PingCastle** (for AD) to score your domain and catch what you missed.
+---
+ 
+## Closing
+ 
+None of these are exotic. They're the boring, high-leverage controls that turn a single compromised endpoint into a dead end instead of a domain takeover. Start with the baseline, layer LSA Protection and LAPS to protect credentials, cut NTLM/SMBv1/unsigned-LDAP, lock down RDP, and enforce tiering so your admin credentials never end up somewhere they can be stolen.
+ 
+Pick two items this week. Pilot them. Verify. Then do two more.
+ 
+*What's the first hardening control you enforce on a fresh server build? I'm always refining this list — let me know what you'd add.*
