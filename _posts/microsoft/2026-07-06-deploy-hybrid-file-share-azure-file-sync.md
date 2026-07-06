@@ -30,23 +30,6 @@ By the end you'll have:
 - **DFS Namespaces** exposing one path (`\\corp.local\Files\Share`) with two targets — local server (primary) and Azure share (standby).
 - **Private Endpoint over VPN** so SMB (TCP 445) never traverses the public internet.
 
-```
-                 ┌───────────────────────────┐
-   Users ──►  \\corp.local\Files  (DFS-N)     │
-                 │   Target 1: FS01  (priority)│  ◄── primary
-                 │   Target 2: Azure share     │  ◄── standby
-                 └───────────────────────────┘
-                         │                 │
-                 ┌───────▼──────┐   ┌──────▼─────────────────┐
-                 │  FS01 (on-prem)│  │ Azure Files share       │
-                 │  AFS agent     │◄─┤ (SMB, NTFS ACLs)        │
-                 │  D:\Shares\Files│ │ AD DS identity auth     │
-                 └───────┬────────┘  └──────┬─────────────────┘
-                         │  Azure File Sync  │
-                         └───────(sync)──────┘
-             SMB 445 rides a private endpoint over the VPN tunnel
-```
-
 ---
 
 ## Lab Environment
