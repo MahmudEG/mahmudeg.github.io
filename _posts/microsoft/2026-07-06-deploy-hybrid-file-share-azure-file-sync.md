@@ -13,7 +13,9 @@ tags:
   - Windows Server
   - PowerShell
 by: Mahmud
-image: https://learn.microsoft.com/en-us/azure/storage/files/media/storage-sync-files-deployment-guide/azure-file-sync-deployment.png
+image:
+  path: /assets/img/hybrid-file-share-architecture.png
+  alt: "Hybrid file services architecture: on-prem AD and FS01 sync to Azure Files via Azure File Sync over a site-to-site VPN, with a private endpoint, DFS Namespaces, and Entra Connect syncing identities to Entra ID."
 published: true
 ---
 
