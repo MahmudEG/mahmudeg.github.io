@@ -31,4 +31,3 @@ I publish something useful most weeks. If you work in Microsoft infrastructure a
 
 New here? Pick a topic you're working on this week and build it alongside one of the hands-on labs in the [archive](/archives/) — that's the fastest way to get value from this blog.
 
-{% include embed/youtube.html id='rENr1sxQUo8' %}
