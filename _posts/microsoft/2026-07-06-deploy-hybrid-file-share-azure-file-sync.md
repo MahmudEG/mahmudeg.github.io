@@ -14,7 +14,7 @@ tags:
   - PowerShell
 by: Mahmud
 image:
-  path: /assets/img/HybridFS.gif
+  path: /assets/img/HybridFS.drawio.png
   published: true
 ---
 
