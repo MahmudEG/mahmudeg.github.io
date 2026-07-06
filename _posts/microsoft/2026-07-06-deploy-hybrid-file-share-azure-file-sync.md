@@ -14,7 +14,7 @@ tags:
   - PowerShell
 by: Mahmud
 image:
-  path: /assets/img/hybrid-file-share-architecture.png
+  path: /assets/img/HybridFS.gif
   published: true
 ---
 
