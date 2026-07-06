@@ -1,16 +1,9 @@
 ---
-title: Deployment, and Monitoring of a Private 5G Standalone Core Network Using Open5GS**
-description: Graduation project submitted in partial fulfillment of the Bachelor’s degree in Electrical and Electronic Engineering (Telecommunications) from University of Tripoli.
-date: 2025-012-5 19:50 +0200
-categories:
-  - Telecom
-tags:
-  - Networking
-  - 5G
-  - 5G_Core
-  - linux
-  - prometus
-  - grafana
+title: "Deploying & Monitoring a Private 5G Standalone Core with Open5GS"
+description: "Graduation project: end-to-end deployment and monitoring of a private 5G Standalone (SA) core network using Open5GS, Prometheus, and Grafana — architecture, setup, and observability."
+date: 2025-12-04 19:50 +0200
+categories: [Labs & Projects, Telecom]
+tags: [5G, 5G Core, Open5GS, Networking, Linux, Prometheus, Grafana]
 by: Mahmud
 image: https://media.licdn.com/dms/image/v2/D4D2DAQFDF7rUOWMJzQ/profile-treasury-image-shrink_1280_1280/B4DZ1dBDXsK4AQ-/0/1775382051453?e=1775988000&v=beta&t=sVAlf7WY9Qc6zstBWxTQVkcGMRYTriIFri_t2nvNBsA
 published: true
@@ -158,5 +151,3 @@ Through this project, I gained practical experience in:
 This project successfully demonstrated the design and deployment of a private 5G Standalone core network with distributed user plane architecture.
 
 It highlights the importance of scalability, performance optimization, and real-time monitoring in modern telecommunications systems.
-
-The experience gained from this project provides a strong foundation for working with next-generation mobile networks and cloud-based telecom infrastructure.

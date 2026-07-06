@@ -1,7 +1,7 @@
 ---
 title: Sticker Shop
 date: 2025-1-11 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -46,4 +46,4 @@ lets test it
 ```
 {: .nolineno }
 1. using URL decoder on  `flag=THM%7B83789a69074f636f64a38879cfcabe8b62305ee6%7D`
-2. the flag is `THM{83789a69074f636f64a38879cfcabe8b62305ee6}`
+2. the flag is 

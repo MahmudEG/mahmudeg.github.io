@@ -1,15 +1,11 @@
 ---
-title: Redundancy Protocols Lab
-description: LAB for studiy the diffrence between redundncy protocols 
+title: "Redundancy Protocols Lab: STP, HSRP, and VRRP in EVE-NG"
+description: "Hands-on lab comparing Spanning Tree Protocol (STP), HSRP, and VRRP behavior in a multi-switch topology built in EVE-NG — configuration, failover testing, and what actually happens when a link drops."
 date: 2025-03-07 19:50 +0200
-categories: [Networking,  Protocols Labs]
-tags:
-  - Networking 
-  - LAB
-  - Cisco
-  - eve-ng
+categories: [Labs & Projects, Networking]
+tags: [Networking, STP, HSRP, VRRP, Cisco, EVE-NG, Labs]
 by: Mahmud
-image: /assets/img/Pasted image 20250307201636.png 
+image: /assets/img/Pasted image 20250307201636.png
 published: true
 ---
 # 1. Overview of Redundancy Protocols
@@ -512,49 +508,4 @@ glbp 1 priority 90
 
 glbp 1 preempt
 
-glbp 1 load-balancing round-robin
-
-no sh
-
-int gi0/2
-
-ip address 192.168.31.2 255.255.255.0
-
-glbp 2 ip 192.168.31.254
-
-glbp 2 priority 90
-
-glbp 2 preempt
-
-glbp 2 load-balancing round-robin
-
-no sh
-
-exit
-
-router ospf 1
-
-network 192.168.30.0 0.0.0.255 area 0
-
-network 192.168.31.0 0.0.0.255 area 0
-
-network 192.168.1.20 0.0.0.3 area 0
-
-end
-
-wr
-```
-
-
-## 3.5 Switches Configuration
-```
-enable
-configure terminal
-spanning-tree mode rapid-pvst
-interface range gi0/1 - 24
-spanning-tree portfast
-exit
-spanning-tree uplinkfast
-end
-write memory
-```
+glbp 1 load-balancing 

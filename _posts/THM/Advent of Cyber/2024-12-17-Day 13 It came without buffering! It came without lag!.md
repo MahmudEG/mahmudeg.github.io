@@ -1,7 +1,7 @@
 ---
 title: Day 13 It came without buffering! It came without lag!
 date: 2024-12-17 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -54,4 +54,4 @@ To stay safe, use strong authentication, encryption, and message validation. Wit
   ![](./assets/img/Pasted image 20241220204335.png){: .shadow }
 
 7. as you can see the flag is  `THM{my_name_is_malware._mayor_malware}`
-    ![](./assets/img/Pasted image 20241220204350.png){: .shadow }
+    ![](.

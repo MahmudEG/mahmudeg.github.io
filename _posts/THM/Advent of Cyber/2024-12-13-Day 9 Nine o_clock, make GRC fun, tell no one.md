@@ -1,7 +1,7 @@
 ---
 title: Day 9 Nine o_clock, make GRC fun, tell no one.
 date: 2024-12-13 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -26,4 +26,4 @@ Governance is the function that creates the framework that an organisation uses 
 Risk is the function that helps to identify, assess, quantify, and mitigate risk to the organisation's IT assets. Risk helps the organisation understand potential threats and vulnerabilities and the impact that they could have if a threat actor were to execute or exploit them. By simply turning on a computer, an organisation has some level of risk of a cyber attack. The risk function is important to help reduce the overall risk to an acceptable level and develop contingency plans in the event of a cyber attack where a risk is realised.  
 
 **Compliance** 
-Compliance is the function that ensures that the organisation adheres to all external legal, regulatory, and industry standards. For example, adhering to the [GDPR law](https://gdpr-info.eu/) or aligning the organisation's security to an industry standard such as NIST or ISO 27001
+Compliance is the function that ensures that the organisation adheres to all external legal, regulatory, and industry standards. For example, adhering to the [GDPR law](https://gdpr-info.eu/) or aligning the organisation's security to an industry standa

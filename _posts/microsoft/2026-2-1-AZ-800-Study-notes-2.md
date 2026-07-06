@@ -1,15 +1,9 @@
 ---
-title: 2- Deploy and manage identity infrastructure (AZ‑800)
-description: Note2
-date: 2026-2-1 7:00 +0200
-categories:
-  - Azure
-  - AZ-800
-tags:
-  - Microsoft
-  - Azure
-  - Cloud
-  - Windows
+title: "AZ-800 Study Cram - Part 2: Identity, Group Policy & Replication"
+description: "Part 2 of the AZ-800 study cram — AD DS sites and replication, Group Policy, and identity protection concepts for the Windows Server Hybrid Administrator (AZ-800) exam."
+date: 2026-02-01 08:00 +0200
+categories: [Microsoft, Study Crams]
+tags: [AZ-800, Active Directory, Windows Server, Group Policy, Hybrid Identity, Microsoft, Certification]
 by: Mahmud
 image: https://ipspecialist.net/wp-content/uploads/2023/10/az-800-administering-windows-server-hybrid-core-infrastructure-course.png
 published: true

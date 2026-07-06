@@ -1,7 +1,7 @@
 ---
 title: Day 10 He had a brain full of macros, and had shells in his soul.
 date: 2024-12-14 00:00:00 +0200
-categories: [Cybersecurity, Tryhackme]
+categories: [Cybersecurity, TryHackMe]
 tags:
   - Advent_of_cyber
   - THM
@@ -152,12 +152,4 @@ w-                          0                         de.website
 100666/rw-rw-r  282   fil   2021-03-17 17:13:27 +020  desktop.ini
 w-                          0
 100666/rw-rw-r  23    fil   2024-11-12 05:42:45 +020  flag.txt
-w-                          0
-
-meterpreter > cat flag.txt
-THM{PHISHING_CHRISTMAS}
-meterpreter >
-```
-{: .nolineno }
-
-1. So the flag is `THM{PHISHING_CHRISTMAS}`
+w-    

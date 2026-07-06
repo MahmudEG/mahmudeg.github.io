@@ -1,7 +1,7 @@
 ---
 title: Day 11 If you_d like to WPA, press the star key!
 date: 2024-12-15 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -252,6 +252,4 @@ rfkill: Cannot get wiphy information
 ```
 {: .nolineno }
 
-**Note**: If you get a `rfkill: Cannot get wiphy information` error, you can **ignore** it. You will also notice that wpa_supplicant has automatically switched our wlan2 interface to managed mode.
-
-Giving it about 10 seconds and checking the wireless interfaces once again with `iw dev` shows that we have joined the `MalwareM_AP SSID`.
+**Note**: If you get a `rfkill: Cannot get wiphy information` error, you can **igno

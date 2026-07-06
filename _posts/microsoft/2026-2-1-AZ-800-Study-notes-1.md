@@ -1,15 +1,9 @@
 ---
-title: 1- Deploy and manage identity infrastructure (AZ‑800)
-description: Note1
-date: 2026-2-1 7:00 +0200
-categories:
-  - Azure
-  - AZ-800
-tags:
-  - Microsoft
-  - Azure
-  - Cloud
-  - Windows
+title: "AZ-800 Study Cram - Part 1: Deploy & Manage Identity Infrastructure"
+description: "Condensed AZ-800 exam notes covering AD DS deployment, hybrid identity with Microsoft Entra Connect, and FSMO roles for the Windows Server Hybrid Administrator certification."
+date: 2026-02-01 07:00 +0200
+categories: [Microsoft, Study Crams]
+tags: [AZ-800, Active Directory, Windows Server, Entra Connect, Hybrid Identity, Microsoft, Certification]
 by: Mahmud
 image: https://ipspecialist.net/wp-content/uploads/2023/10/az-800-administering-windows-server-hybrid-core-infrastructure-course.png
 published: true

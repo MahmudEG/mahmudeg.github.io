@@ -1,7 +1,7 @@
 ---
 title: Day 15 Be it ever so heinous, there_s no place like Domain Controller.
 date: 2024-12-19 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -54,5 +54,4 @@ Example: To enforce a password policy:
 6. **Skeleton Key Attack:** Hackers install a backdoor to log in using a "master" password. Defend by monitoring for malware.
 
 **Investigating Breaches:**
-- Use tools like PowerShell to review Group Policy Objects (GPOs) and identify any unauthorized changes or malicious settings.
-
+- Use tools like PowerShell to review Group Policy Objects (GPOs) and id

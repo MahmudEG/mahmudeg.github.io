@@ -1,15 +1,11 @@
 ---
-title: Fix Windows UUID/SID Conflict in EVE-NG Labs (Domain Join Issue)
-description: " Problem: When cloning Windows Server VMs in EVE-NG, all clones share the same SID and Machine GUID. This causes Active Directory to reject domain joins with a “UUID matches another server” error."
-date: 2026-4-21 19:50 +0200
-categories:
-  - Networking
-tags:
-  - linux
-  - Windows
-  - eve-ng
+title: "Fix Windows UUID/SID Conflict in EVE-NG Labs (Domain Join Issue)"
+description: "Cloned Windows Server VMs in EVE-NG share the same SID and Machine GUID, so Active Directory rejects domain joins with a 'UUID matches another server' error. Here's the root cause and the Sysprep/PowerShell fix."
+date: 2026-04-22 19:50 +0200
+categories: [Labs & Projects, Active Directory]
+tags: [Active Directory, Windows Server, EVE-NG, Sysprep, Domain Join, Labs]
 by: Mahmud
-image:
+image: https://www.ictpower.it/wp-content/uploads/2025/03/Windows-Hello-For-Business-Active-Directory.png
 published: true
 ---
 
@@ -121,8 +117,4 @@ Rename-Computer -NewName "SRV-02" -Force -Restart
 |Setting up a new base image               |Sysprep → commit qcow2 → save as template   |
 |Already have running clones with conflicts|PowerShell GUID reset + rename              |
 |“Export CFG” not working                  |Expected — use qcow2 method instead         |
-|Want to avoid this forever                |Always build from a sysprepped base template|
-
------
-
-*Tested on EVE-NG Community with Windows Server 2019/2022*
+|Want to avoid this forever      

@@ -1,7 +1,7 @@
 ---
 title: Day 12 If I can’t steal their money, I’ll steal their joy!
 date: 2024-12-16 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -108,6 +108,4 @@ A common form of race condition, TOCTOU flaws occur when a system checks a condi
 11. to preform race condition the request should be send to repeater and duplicate for lets say 5 times and send all of them in parallel to the server server
 ![](./assets/img/Pasted image 20241220195526.png){: .shadow }
     
-12. this method approve success 
-![](./assets/img/Pasted image 20241220195249.png){: .shadow }
-13. and the flag is `THM{WON_THE_RACE_007}`
+12. this method approve succe

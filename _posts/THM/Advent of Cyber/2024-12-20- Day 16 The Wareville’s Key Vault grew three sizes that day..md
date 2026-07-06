@@ -1,7 +1,7 @@
 ---
 title: Day 16 The Wareville’s Key Vault grew three sizes that day.
 date: 2024-12-20 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -71,8 +71,4 @@ az keyvault secret list --vault-name warevillesecrets
 1. find name of vault secret is `aoc2024`
 2.  find the content on it using
 ```shell-session
-az keyvault secret show --vault-name warevillesecrets --name aoc2024
-```
-{: .nolineno }
-
-1. the content is `WhereIsMyMind1999`
+az keyvault secret show --vault-name warevillesecrets

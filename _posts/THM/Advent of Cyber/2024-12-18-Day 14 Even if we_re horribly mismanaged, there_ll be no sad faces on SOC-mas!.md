@@ -1,7 +1,7 @@
 ---
 title: Day 14 Even if we_re horribly mismanaged, there_ll be no sad faces on SOC-mas!
 date: 2024-12-18 00:00:00 +0200
-categories: Cybersecurity Tryhackme
+categories: [Cybersecurity, TryHackMe]
 tags:
   - THM
   - Writeups
@@ -156,5 +156,4 @@ username=greenelf&password=r3d4ppl3
 ```
 {: .nolineno }
 
-12. when login to greenelf account  the flag is`THM{AoC-3lf0nth3Sh3lf}`
-13. login with Marta May Ware’s username and password the flag is  `THM{AoC-h0wt0ru1nG1ftD4y}`
+12. when l

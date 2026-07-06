@@ -2,7 +2,7 @@
 title: "Deploy a Hybrid File Share Solution with Azure File Sync (Step-by-Step Lab)"
 description: "Step-by-step lab: deploy an Azure Files share, sync it with an on-prem file server using Azure File Sync, authenticate users with AD DS credentials, and front it with DFS Namespaces for transparent failover."
 date: 2026-07-06 10:00 +0200
-categories: Azure
+categories: [Microsoft, Azure]
 tags:
   - Azure
   - Azure Files
