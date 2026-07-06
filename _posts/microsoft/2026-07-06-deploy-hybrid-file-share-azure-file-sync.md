@@ -15,8 +15,7 @@ tags:
 by: Mahmud
 image:
   path: /assets/img/hybrid-file-share-architecture.png
-  alt: "Hybrid file services architecture: on-prem AD and FS01 sync to Azure Files via Azure File Sync over a site-to-site VPN, with a private endpoint, DFS Namespaces, and Entra Connect syncing identities to Entra ID."
-published: true
+  published: true
 ---
 
 ## What You'll Build
