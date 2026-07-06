@@ -5,7 +5,7 @@ date: 2026-04-22 19:50 +0200
 categories: [Labs & Projects, Active Directory]
 tags: [Active Directory, Windows Server, EVE-NG, Sysprep, Domain Join, Labs]
 by: Mahmud
-image: https://www.ictpower.it/wp-content/uploads/2025/03/Windows-Hello-For-Business-Active-Directory.png
+image: /assets/img/Fix Windows UUID.png
 published: true
 ---
 
