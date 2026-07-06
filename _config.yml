@@ -222,4 +222,6 @@ jekyll-archives:
   layouts:
     category: category
     tag: tag
-  permalinks:
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
