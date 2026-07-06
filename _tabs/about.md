@@ -4,8 +4,6 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-![About](/assets/img/about.webp){: width="1200" height="650" }
-
 ## Hi, I'm Mahmud
 
 I'm a systems engineer focused on Microsoft hybrid infrastructure — the point where on-premises Active Directory and Windows Server meet Azure and Microsoft Entra ID, and everything has to keep running while it gets more secure.
