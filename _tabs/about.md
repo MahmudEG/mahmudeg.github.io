@@ -32,7 +32,7 @@ Click any badge to verify the credential.
 </style>
 <div class="cert-grid" markdown="0">
 <!-- Replace each href below with YOUR personal verification link (Credly badge URL, or your Microsoft Learn transcript share link). Defaults point to the official certification pages. -->
-<a class="cert-link" href="https://learn.microsoft.com/credentials/certifications/windows-server-hybrid-administrator/" target="_blank" rel="noopener">
+<a class="cert-link" href="https://learn.microsoft.com/en-us/users/mahmudelgoueri-1200/credentials/377fbef290c48888" target="_blank" rel="noopener">
 <div class="cert-card">
 <svg class="cert-badge" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
 <span class="cert-title">Windows Server Hybrid Administrator</span>
@@ -40,7 +40,7 @@ Click any badge to verify the credential.
 <span class="cert-verify">Verify credential →</span>
 </div>
 </a>
-<a class="cert-link" href="https://learn.microsoft.com/credentials/certifications/azure-administrator/" target="_blank" rel="noopener">
+<a class="cert-link" href="https://learn.microsoft.com/en-us/users/mahmudelgoueri-1200/credentials/fdb6f034662e8214" target="_blank" rel="noopener">
 <div class="cert-card">
 <svg class="cert-badge" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
 <span class="cert-title">Azure Administrator Associate</span>
@@ -48,7 +48,7 @@ Click any badge to verify the credential.
 <span class="cert-verify">Verify credential →</span>
 </div>
 </a>
-<a class="cert-link" href="https://learn.microsoft.com/credentials/certifications/azure-fundamentals/" target="_blank" rel="noopener">
+<a class="cert-link" href="https://learn.microsoft.com/en-us/users/mahmudelgoueri-1200/credentials/f34d92772c87f6de" target="_blank" rel="noopener">
 <div class="cert-card">
 <svg class="cert-badge" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
 <span class="cert-title">Azure Fundamentals</span>
@@ -56,7 +56,7 @@ Click any badge to verify the credential.
 <span class="cert-verify">Verify credential →</span>
 </div>
 </a>
-<a class="cert-link" href="https://e.huawei.com/en/talent/cert" target="_blank" rel="noopener">
+<a class="cert-link" href="https://e.huawei.com/en/talent/#/cert/certificate-verification" target="_blank" rel="noopener" title="Credential ID 010100301471810022252624426">
 <div class="cert-card">
 <svg class="cert-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l8 3v6c0 5-3.4 8.6-8 11-4.6-2.4-8-6-8-11V5l8-3z" fill="#C7000B"/><path d="M8.5 12l2.3 2.3L15.5 9.5" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
 <span class="cert-title">HCIA-Security</span>
