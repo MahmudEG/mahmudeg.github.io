@@ -13,7 +13,7 @@ tags:
   - Zero Trust
 by: Mahmud
 image:
-  path: https://techcommunity.microsoft.com/t5/s/gxcuf89792/images/bS00NDYzMjQwLU0yRnlBUQ?revision=4
+  path: /assets/img/ESC1.png
 published: true
 ---
 
