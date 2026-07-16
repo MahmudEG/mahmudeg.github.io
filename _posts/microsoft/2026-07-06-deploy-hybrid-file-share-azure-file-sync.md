@@ -1,267 +1,216 @@
 ---
-title: "Deploy a Hybrid File Share Solution with Azure File Sync (Step-by-Step Lab)"
-description: "Step-by-step lab: deploy an Azure Files share, sync it with an on-prem file server using Azure File Sync, authenticate users with AD DS credentials, and front it with DFS Namespaces for transparent failover."
-date: 2026-07-06 10:00 +0200
-categories: [Microsoft, Azure]
+title: "Detect and Remediate an AD CS ESC1 Certificate Template (Step-by-Step Lab)"
+description: "Find the certificate template that lets any domain user request a cert as Domain Admin, prove the exposure, and close it: audit templates with PowerShell, enable CA auditing, and remove ENROLLEE_SUPPLIES_SUBJECT — with verification at every step."
+date: 2026-07-16 10:00 +0200
+categories: [Labs & Projects, Microsoft]
 tags:
-  - Azure
-  - Azure Files
-  - Azure File Sync
-  - DFS Namespaces
   - Active Directory
-  - Hybrid
-  - Windows Server
+  - AD CS
+  - PKI
+  - Security
   - PowerShell
+  - Hardening
+  - Zero Trust
 by: Mahmud
 image:
-  path: /assets/img/HybridFS.drawio.png
-  published: true
+  path: https://techcommunity.microsoft.com/t5/s/gxcuf89792/images/bS00NDYzMjQwLU0yRnlBUQ?revision=4
+published: true
 ---
 
 ## What You'll Build
 
-In this lab you deploy a **hybrid file share**: an on-premises Windows file server and an Azure Files share kept continuously in sync, presented to users through a single unchanging path. Users authenticate with their existing Active Directory credentials, and DFS Namespaces lets clients fail over from the local server to the cloud share (and back) without any change to drive mappings or permissions.
+ESC1 is the single most common Active Directory Certificate Services (AD CS) misconfiguration, and it hands a low-privileged user a straight path to Domain Admin. The mechanism is simple: a certificate template that (1) lets the **enrollee supply the subject**, (2) carries an **authentication EKU**, and (3) is **enrollable by ordinary users without manager approval**. Put those three together and any domain user can request a certificate that names them as `Administrator`, then authenticate with it.
 
-By the end you'll have:
+In this lab you'll stand up the vulnerable condition on purpose in an isolated environment, then do the part that actually matters operationally:
 
-- An **Azure Files** share holding a full copy of the data, enforcing NTFS ACLs.
-- **Azure File Sync** replicating files and permissions bidirectionally, delta-only.
-- **AD DS identity-based authentication** so users open the cloud share with their normal domain credentials.
-- **DFS Namespaces** exposing one path (`\\corp.local\Files\Share`) with two targets — local server (primary) and Azure share (standby).
-- **Private Endpoint over VPN** so SMB (TCP 445) never traverses the public internet.
+- **Enumerate every certificate template** in the forest and flag the ones that meet all three ESC1 conditions, using nothing but the AD PowerShell module.
+- **Turn on CA-level auditing** so certificate requests and issuance land in the Security log (Event IDs 4886 / 4887).
+- **Remediate** the template three ways — remove `ENROLLEE_SUPPLIES_SUBJECT`, restrict enrollment rights, and apply manager approval as a compensating control.
+- **Verify** the fix by re-running the detection script and confirming the audit filter is live.
 
----
+You finish with a reusable detection script you can run against any production CA, and a template that no longer trusts the requester to name themselves.
+
+> This lab intentionally creates an exploitable AD CS configuration. Build it **only** in an isolated lab forest you own and can throw away — never on a domain that shares trust, DNS, or network reachability with production.
+{: .prompt-danger }
 
 ## Lab Environment
 
-- **DC01** — Windows Server 2022, AD DS domain `corp.local`
-- **FS01** — Windows Server 2022, domain-joined, share at `D:\Shares\Files`
-- **Azure subscription** with a resource group, and a **site-to-site VPN or ExpressRoute** connecting the lab VNet to on-prem
-- **Client workstation** — domain-joined, for testing the DFS path
-- **Tooling:** `Az` PowerShell module, the **AzFilesHybrid** module, RSAT (DFS Management), and the Azure File Sync agent
+| Role | Host | OS | Notes |
+| --- | --- | --- | --- |
+| Domain Controller | `DC01` | Windows Server 2022 | Forest/domain `lab.local` |
+| Enterprise CA | `CA01` | Windows Server 2022 | AD CS role, Enterprise Root CA |
+| Member / admin host | `MGMT01` | Windows Server 2022 | RSAT + AD PowerShell module |
+| Low-priv account | `lab\jdoe` | — | Standard domain user, used to prove exposure |
 
-```powershell
-# On a management box
-Install-Module Az -Scope CurrentUser
-Install-Module Az.StorageSync -Scope CurrentUser
-Connect-AzAccount
-$rg   = "rg-hybridfiles"
-$loc  = "italynorth"
-$sa   = "sthybridfiles01"     # storage account name (globally unique, lowercase)
-$share= "files"
-```
+Requirements before you start:
 
----
+- An **Enterprise CA** already installed (`Add Certificate Templates` snap-in available on the CA).
+- The **Active Directory module** for PowerShell on your admin host (`Import-Module ActiveDirectory`).
+- Membership in a role that can edit templates and CA settings — typically **Enterprise Admins** plus **Cert Publishers / CA Administrator** rights.
+- A standard domain user (`jdoe`) with no special privileges, to confirm the exposure is real and not an artifact of running everything as admin.
 
-## Step 1 — Create the Storage Account and File Share
-
-```powershell
-New-AzResourceGroup -Name $rg -Location $loc
-
-# StorageV2, Standard, LRS
-$storage = New-AzStorageAccount -ResourceGroupName $rg -Name $sa `
-  -Location $loc -SkuName Standard_LRS -Kind StorageV2 `
-  -EnableLargeFileShare
-
-New-AzRmStorageShare -ResourceGroupName $rg -StorageAccountName $sa `
-  -Name $share -QuotaGiB 2048
-```
-
----
-
-## Step 2 — Lock SMB to the Private Network
-
-Azure Files listens on TCP 445, which many ISPs block. Add a **private endpoint** so the share resolves to a private IP reachable over the VPN, and disable public access.
-
-```powershell
-# Disable public network access
-Set-AzStorageAccount -ResourceGroupName $rg -Name $sa -PublicNetworkAccess Disabled
-
-# Private endpoint (VNet/subnet already connected to on-prem via VPN)
-$vnet   = Get-AzVirtualNetwork -Name "vnet-hub" -ResourceGroupName $rg
-$subnet = $vnet.Subnets | Where-Object Name -eq "snet-endpoints"
-
-$plsConn = New-AzPrivateLinkServiceConnection -Name "pe-files-conn" `
-  -PrivateLinkServiceId $storage.Id -GroupId "file"
-
-New-AzPrivateEndpoint -Name "pe-$sa-file" -ResourceGroupName $rg -Location $loc `
-  -Subnet $subnet -PrivateLinkServiceConnection $plsConn
-```
-
-Create the **Private DNS zone** `privatelink.file.core.windows.net`, link it to the VNet, and make sure on-prem clients resolve the storage FQDN to the private IP (a conditional forwarder or DNS forwarder to Azure Private DNS).
-
-> If on-prem clients resolve `sthybridfiles01.file.core.windows.net` to the public IP instead of the private endpoint, SMB will be blocked. Fix DNS resolution first.
+> AD CS objects live in the forest **Configuration** partition, so a template misconfiguration is a *forest-wide* exposure — every domain in the forest can enroll. Treat your CA as a Tier 0 asset alongside your domain controllers.
 {: .prompt-warning }
 
----
+## Step-by-Step
 
-## Step 3 — Domain-Join the Storage Account to AD DS
+### Step 1 — Create the vulnerable template (lab setup only)
 
-This lets users open the cloud share with their existing credentials. Use the **AzFilesHybrid** module from a machine that can reach the domain.
+Duplicate the built-in **User** template and deliberately weaken it so you have a known-bad target to detect and fix.
 
-```powershell
-# Download AzFilesHybrid: https://github.com/Azure-Samples/azure-files-samples/releases
-Import-Module .\AzFilesHybrid.psd1
-Connect-AzAccount
+1. On `CA01`, open **Certificate Templates Console** (`certtmpl.msc`).
+2. Right-click the **User** template → **Duplicate Template**.
+3. On the **General** tab, set the display name to `Lab-VulnUser`.
+4. On the **Subject Name** tab, select **Supply in the request**. Acknowledge the security warning — this is the flag that makes ESC1 possible.
+5. On the **Extensions** tab, confirm **Application Policies** includes **Client Authentication** (it does by default for User).
+6. On the **Security** tab, ensure **Domain Users** (or **Authenticated Users**) has **Read** and **Enroll**.
+7. On the **Issuance Requirements** tab, leave **CA certificate manager approval** *unchecked*.
+8. Click **OK**, then publish it: **Certification Authority** console (`certsrv.msc`) → right-click **Certificate Templates** → **New → Certificate Template to Issue** → select `Lab-VulnUser`.
 
-Join-AzStorageAccountForAuth `
-  -ResourceGroupName $rg `
-  -StorageAccountName $sa `
-  -DomainAccountType ComputerAccount `
-  -OrganizationalUnitDistinguishedName "OU=AzureStorage,DC=corp,DC=local"
-```
+You now have a template that satisfies all three ESC1 conditions.
 
-Verify the join and Kerberos setup:
+> `certtmpl.msc` writes directly to the Configuration partition. Never test "Supply in the request" on a template that is already published in production — publishing propagates within minutes.
+{: .prompt-danger }
 
-```powershell
-Debug-AzStorageAccountAuth -ResourceGroupName $rg -StorageAccountName $sa -Verbose
-```
+### Step 2 — Understand what makes it ESC1
 
-This creates an AD object with the SPN `cifs/sthybridfiles01.file.core.windows.net`, so domain clients can get a Kerberos ticket for the share. ([Enable AD DS authentication for Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-ad-ds-enable))
+Three attributes on the template object decide everything. Knowing the exact bits is what lets you detect this at scale instead of clicking through every template by hand.
 
----
+| Attribute | ESC1 condition | Value to look for |
+| --- | --- | --- |
+| `msPKI-Certificate-Name-Flag` | Enrollee supplies subject | `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` = `0x00000001` bit set |
+| `pKIExtendedKeyUsage` | Certificate is valid for authentication | Client Authentication `1.3.6.1.5.5.7.3.2`, Smart Card Logon `1.3.6.1.4.1.311.20.2.2`, PKINIT Client Auth `1.3.6.1.5.2.3.4`, or Any Purpose `2.5.29.37.0` |
+| `msPKI-Enrollment-Flag` | No manager approval | `CT_FLAG_PEND_ALL_REQUESTS` = `0x00000002` bit **not** set |
 
-## Step 4 — Grant Access: Share-Level RBAC + File-Level NTFS
+A template is ESC1 when the subject flag is set, an authentication EKU is present, approval is **not** required, and a low-privileged group holds **Enroll**.
 
-Azure Files enforces **two permission layers** — configure both.
+### Step 3 — Detect ESC1 across the whole forest with PowerShell
 
-**a) Share-level (Azure RBAC)** — assign a role to the AD group (synced to Entra ID via Entra Connect):
-
-```powershell
-$grp = "fileusers@corp.local"
-$scope = "$($storage.Id)/fileServices/default/fileshares/$share"
-
-New-AzRoleAssignment -SignInName $grp `
-  -RoleDefinitionName "Storage File Data SMB Share Contributor" `
-  -Scope $scope
-```
-
-Roles: **Reader**, **Contributor**, **Elevated Contributor** (the last can modify NTFS ACLs).
-
-**b) File/folder-level (NTFS ACLs)** — mount once with the storage account key to set the initial ACLs:
+Run this from `MGMT01`. It reads every template object out of the Configuration partition and applies the three-condition test above. No third-party tooling — just `ActiveDirectory`.
 
 ```powershell
-$key = (Get-AzStorageAccountKey -ResourceGroupName $rg -Name $sa)[0].Value
-net use Z: \\$sa.file.core.windows.net\$share /user:Azure\$sa $key
+Import-Module ActiveDirectory
 
-icacls Z:\ /grant "corp\fileusers:(OI)(CI)M"
-icacls Z:\ /remove "Authenticated Users"
-net use Z: /delete
+$configNC     = (Get-ADRootDSE).ConfigurationNamingContext
+$templatePath = "CN=Certificate Templates,CN=Public Key Services,CN=Services,$configNC"
+
+# EKUs that make a certificate usable for AD authentication
+$authEKUs = @(
+    '1.3.6.1.5.5.7.3.2',       # Client Authentication
+    '1.3.6.1.4.1.311.20.2.2',  # Smart Card Logon
+    '1.3.6.1.5.2.3.4',         # PKINIT Client Authentication
+    '2.5.29.37.0'              # Any Purpose
+)
+
+Get-ADObject -SearchBase $templatePath -LDAPFilter '(objectClass=pKICertificateTemplate)' `
+    -Properties displayName, 'msPKI-Certificate-Name-Flag', 'msPKI-Enrollment-Flag', pKIExtendedKeyUsage |
+ForEach-Object {
+    $nameFlag   = [int]$_.'msPKI-Certificate-Name-Flag'
+    $enrollFlag = [int]$_.'msPKI-Enrollment-Flag'
+    $ekus       = @($_.pKIExtendedKeyUsage)
+
+    $suppliesSubject = ($nameFlag   -band 0x1) -eq 0x1   # ENROLLEE_SUPPLIES_SUBJECT
+    $managerApproval = ($enrollFlag -band 0x2) -eq 0x2   # PEND_ALL_REQUESTS
+    $matchedEKU      = $ekus | Where-Object { $_ -in $authEKUs }
+
+    if ($suppliesSubject -and $matchedEKU -and -not $managerApproval) {
+        [pscustomobject]@{
+            Template        = $_.displayName
+            SuppliesSubject = $true
+            AuthEKU         = ($matchedEKU -join ', ')
+            ManagerApproval = $managerApproval
+        }
+    }
+} | Format-Table -AutoSize
 ```
 
-Once File Sync runs, ACLs replicated from FS01 flow into the share automatically.
+`Lab-VulnUser` should appear in the output. On a real CA, treat **every** row this returns as a finding to close.
 
----
-
-## Step 5 — Deploy Azure File Sync and Register FS01
-
-```powershell
-New-AzStorageSyncService -ResourceGroupName $rg -Name "afs-hybridfiles" -Location $loc
-```
-
-On **FS01**, install the Azure File Sync agent (Microsoft download), then register the server:
-
-```powershell
-# On FS01, after installing the agent MSI
-Import-Module "C:\Program Files\Azure\StorageSyncAgent\StorageSync.Management.ServerCmdlets.dll"
-Register-AzStorageSyncServer -ResourceGroupName $rg -StorageSyncServiceName "afs-hybridfiles"
-```
-
----
-
-## Step 6 — Create the Sync Group (Cloud + Server Endpoints)
-
-The sync group ties the Azure file share (**cloud endpoint**) to the FS01 folder (**server endpoint**).
-
-```powershell
-New-AzStorageSyncGroup -ResourceGroupName $rg -StorageSyncServiceName "afs-hybridfiles" `
-  -Name "sg-files"
-
-# Cloud endpoint = the Azure file share
-New-AzStorageSyncCloudEndpoint -ResourceGroupName $rg `
-  -StorageSyncServiceName "afs-hybridfiles" -SyncGroupName "sg-files" `
-  -StorageAccountResourceId $storage.Id -AzureFileShareName $share
-
-# Server endpoint = the folder on FS01
-$server = Get-AzStorageSyncServer -ResourceGroupName $rg -StorageSyncServiceName "afs-hybridfiles"
-New-AzStorageSyncServerEndpoint -ResourceGroupName $rg `
-  -StorageSyncServiceName "afs-hybridfiles" -SyncGroupName "sg-files" `
-  -ServerResourceId $server.ResourceId `
-  -ServerLocalPath "D:\Shares\Files" `
-  -CloudTiering:$false
-```
-
-The first sync uploads FS01's existing files and ACLs to the cloud endpoint — no manual copy needed. Keep **cloud tiering off** so FS01 retains a full local copy. Track progress in the portal or with `Get-AzStorageSyncServerEndpoint`.
-
----
-
-## Step 7 — Build the DFS Namespace
-
-The namespace is the path users map. It holds one folder with **two targets**: FS01 (primary) and the Azure share (standby).
-
-```powershell
-# Domain-based namespace root (on a namespace server, e.g. DC01)
-New-DfsnRoot -TargetPath "\\corp.local\Files" -Type DomainV2 -Path "\\corp.local\Files"
-
-# Primary target = FS01
-New-DfsnFolderTarget -Path "\\corp.local\Files\Share" `
-  -TargetPath "\\FS01\Files" -ReferralPriorityClass GlobalHigh
-
-# Standby target = Azure file share (private endpoint FQDN)
-New-DfsnFolderTarget -Path "\\corp.local\Files\Share" `
-  -TargetPath "\\$sa.file.core.windows.net\$share" -ReferralPriorityClass GlobalLow
-```
-
-`\\corp.local\Files\Share` now prefers FS01 and refers clients to the Azure target only when FS01 is unavailable.
-
-> Lower the DFS referral TTL (default 300s) if you want clients to pick up failover faster instead of caching the primary referral.
+> This detects the template configuration. It does **not** check *who* can enroll. Combine it with an ACL review (Step 6) — a template is only exploitable if a low-privileged principal actually holds the Enroll right.
 {: .prompt-tip }
 
----
+### Step 4 — (Optional) Prove the exposure from a low-priv account
 
-## Step 8 — Test Failover and Failback
+If you want to *see* the escalation before you fix it, this is where the attacker's view lives. Tools like **Certify** and **Certipy** enumerate and abuse ESC1 automatically; a defender running them in a lab understands exactly what the telemetry should look like.
 
-**Simulate the local server going offline:**
-```powershell
-# On FS01
-Stop-Service LanmanServer -Force
+```text
+# Enumerate vulnerable templates (attacker view)
+Certify.exe find /vulnerable
+
+# Request a cert as jdoe but name the SAN as a Domain Admin
+Certify.exe request /ca:CA01.lab.local\lab-CA01-CA /template:Lab-VulnUser /altname:Administrator
 ```
 
-On the client, re-open `\\corp.local\Files\Share` — DFS refers you to the Azure target. Confirm you authenticated with your **domain** identity, not a storage key:
+The CA issues a certificate whose subject alternative name is `Administrator`, which can then be used with Kerberos PKINIT to authenticate as that account.
+
+> Offensive tooling (Certify, Certipy, Rubeus) is shown for defender understanding **only**. Run it exclusively in an isolated lab you own and are authorized to test. Using it against systems without explicit written authorization is illegal.
+{: .prompt-danger }
+
+### Step 5 — Enable CA auditing so requests are recorded
+
+Before you change the template, make sure issuance is being logged — you want to detect abuse against any template you *haven't* fixed yet. On `CA01`:
 
 ```powershell
-klist   # expect a ticket: cifs/sthybridfiles01.file.core.windows.net
-Get-SmbConnection | Select-Object ServerName, ShareName, UserName
+# Turn on all AD CS audit categories (127 = 0x7F = every event class)
+certutil -setreg CA\AuditFilter 127
+
+# Restart the CA service to apply
+Restart-Service certsvc
+
+# Also enable the OS-level audit subcategory so events reach the Security log
+auditpol /set /subcategory:"Certification Services" /success:enable /failure:enable
 ```
 
-**Bring the local server back:**
+With this on, the CA writes **Event ID 4886** (request received) and **Event ID 4887** (request approved / certificate issued) to the Security log. The tell for ESC1 abuse is a 4887 where the issued Subject Alternative Name does not match the requesting account's own UPN.
+
+### Step 6 — Remediate the template
+
+Fix the root cause first, then layer defence in depth. Do these in order.
+
+**6a — Remove "Supply in the request" (the actual fix).** In `certtmpl.msc`, open `Lab-VulnUser` → **Subject Name** tab → select **Build from this Active Directory information**. This clears `ENROLLEE_SUPPLIES_SUBJECT`; the CA now derives the subject from the requesting account instead of trusting the request. This alone kills ESC1.
+
+**6b — Restrict enrollment rights.** On the **Security** tab, remove **Enroll** from **Domain Users** / **Authenticated Users**. Grant Enroll only to a purpose-built group that genuinely needs the template. You can confirm who currently holds the Certificate-Enrollment extended right (`0e10c968-78fb-11d2-90d4-00c04f79dc55`) with:
+
 ```powershell
-Start-Service LanmanServer
+$acl = (Get-ADObject "CN=Lab-VulnUser,$templatePath" -Properties nTSecurityDescriptor).nTSecurityDescriptor
+$acl.Access | Where-Object {
+    $_.ObjectType -eq '0e10c968-78fb-11d2-90d4-00c04f79dc55'
+} | Select-Object IdentityReference, ActiveDirectoryRights, AccessControlType
 ```
 
-Azure File Sync reconciles delta changes both ways, and DFS referrals return to FS01 (GlobalHigh). Only changed files sync — never a full re-upload.
+**6c — Require manager approval (compensating control).** For any template you can't immediately flatten, open **Issuance Requirements** → check **CA certificate manager approval**. This sets `CT_FLAG_PEND_ALL_REQUESTS` (`0x2`), forcing a human to approve each request. Use it as a stopgap, not a substitute for 6a.
 
----
+> Related hardening: make sure your DCs enforce **strong certificate mapping** (KB5014754 / `StrongCertificateBindingEnforcement`). Weak implicit mapping is what let a supplied-SAN certificate impersonate an account in the first place. Full enforcement mode has been the default since February 2025.
+{: .prompt-tip }
 
 ## Verification
 
-- **Identity:** `klist` shows a `cifs/<account>.file.core.windows.net` Kerberos ticket during failover.
-- **Permission parity:** set a restrictive ACL on FS01, confirm it appears on the Azure share after sync, and that an unauthorized user is denied on both.
-- **Delta-only sync:** add a file to the cloud share while FS01 is stopped, restart FS01, and confirm only that file syncs down (File Sync event log 9302/9102 on FS01).
-- **Transparency:** the mapped drive and `\\corp.local\Files\Share` path are identical before, during, and after failover.
+Confirm each control took effect rather than trusting the console.
+
+**1. The template no longer matches ESC1.** Re-run the detection script from Step 3. `Lab-VulnUser` should no longer appear in the output. If it still does, the Configuration partition may not have replicated yet — force it and re-check:
 
 ```powershell
-Get-AzStorageSyncServerEndpoint -ResourceGroupName $rg `
-  -StorageSyncServiceName "afs-hybridfiles" -SyncGroupName "sg-files" |
-  Select-Object ServerLocalPath, SyncStatus, LastSyncSuccessTimestamp
+repadmin /syncall /AdeP
 ```
 
----
+**2. CA auditing is live.** The value should return `0x7f`:
+
+```powershell
+certutil -getreg CA\AuditFilter
+auditpol /get /subcategory:"Certification Services"
+```
+
+**3. Enrollment rights are scoped.** Re-run the ACL query from Step 6b and confirm no broad group (Domain Users, Authenticated Users) retains Enroll.
+
+**4. A supplied-SAN request is now refused.** From `jdoe`, repeating the Step 4 request against the fixed template should fail — the CA ignores the requested SAN and builds the subject from AD, so it can no longer be coerced into naming `Administrator`.
+
+> For continuous coverage, **Microsoft Defender for Identity** ships posture assessments that flag ESC1-style templates ("Prevent users from requesting a certificate valid for arbitrary users"). If you run Defender for Identity, use it to catch the next misconfigured template before an attacker does.
+{: .prompt-tip }
 
 ## Closing
 
-That's a working hybrid file share: Azure Files as the cloud copy, Azure File Sync keeping it current with delta-only reconciliation, AD DS handling authentication so nobody needs a new credential, and DFS Namespaces presenting one path that survives failover. Build it in a lab and run the Step 8 test before relying on it — DNS resolution to the private endpoint and the Kerberos join are the two things worth double-checking.
+ESC1 is dangerous precisely because it hides in plain sight: a template someone duplicated years ago, ticked "Supply in the request" for one legitimate use case, and left enrollable by everyone. The fix is boring and permanent — build the subject from Active Directory, scope enrollment to groups that need it, and log issuance so you'd see abuse if it happened.
 
-*Have you deployed Azure File Sync with DFS-N for failover, or used it mainly for cloud tiering? Curious which pattern people landed on.*
+Your concrete next step today: run the Step 3 detection script against your **production** CA. It's read-only and takes seconds. Every row it returns is a template that can currently mint a Domain Admin certificate — triage those before you touch anything else.
 
-Sources: [Azure File Sync deployment](https://learn.microsoft.com/en-us/azure/storage/files/storage-sync-files-deployment-guide) · [Enable AD DS authentication for Azure Files](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-ad-ds-enable) · [On-prem AD DS authentication overview](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-ad-ds-overview)
+Once you've cleaned up ESC1, the same certificate objects hide ESC2 through ESC16 (agent templates, dangerous EKUs, vulnerable CA ACLs, the `EDITF_ATTRIBUTESUBJECTALTNAME2` flag). Which AD CS finding is highest on your list to tackle next — and is your CA being treated as a Tier 0 asset today?
