@@ -12,7 +12,8 @@ tags:
   - Identity
 by: Mahmud
 image:
-  path: 
+  path: /assets/img/dns-scavenging.png
+  alt: "Terminal running Set-DnsServerZoneAging — Configure DNS Aging & Scavenging lab"
 published: true
 ---
 
