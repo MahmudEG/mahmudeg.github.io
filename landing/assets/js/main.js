@@ -186,7 +186,7 @@
 
       updateTopicCounts(posts);
 
-      var latest = posts.slice(0, 6);
+      var latest = posts.slice(0, 3);
       // Prefer the hand-written summaries over raw body truncation when we have them.
       latest.forEach(function (p) {
         var known = FALLBACK.find(function (f) { return f.url === blogRelative(p.url); });
@@ -212,17 +212,32 @@
     }
   }
 
-  /* ---------- obfuscated email (same trick the blog uses) ---------- */
+  /* ---------- obfuscated email + phone (same trick the blog uses) ---------- */
   var emailLink = document.getElementById("email-link");
   var emailText = document.getElementById("email-text");
-  var revealed = false;
+  var emailRevealed = false;
   emailLink.addEventListener("click", function (e) {
     var addr = ["mahmudeg2000", "gmail.com"].join("@");
-    if (!revealed) {
+    if (!emailRevealed) {
       e.preventDefault();
       emailText.textContent = addr;
       emailLink.href = "mailto:" + addr;
-      revealed = true;
+      emailRevealed = true;
     }
   });
+
+  var phoneLink = document.getElementById("phone-link");
+  var phoneText = document.getElementById("phone-text");
+  var phoneRevealed = false;
+  if (phoneLink) {
+    phoneLink.addEventListener("click", function (e) {
+      var num = ["+218", "92", "778", "5022"].join(" ");
+      if (!phoneRevealed) {
+        e.preventDefault();
+        phoneText.textContent = num;
+        phoneLink.href = "tel:" + num.replace(/ /g, "");
+        phoneRevealed = true;
+      }
+    });
+  }
 })();

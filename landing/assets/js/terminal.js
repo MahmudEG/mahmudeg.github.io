@@ -69,7 +69,10 @@
     "[w]Available commands:[/w]",
     "",
     "  [g]help[/g], [g]/?[/g]        show this help",
-    "  [g]whoami[/g]          about the author",
+    "  [g]whoami[/g]          about me",
+    "  [g]experience[/g]      professional experience",
+    "  [g]skills[/g]          technical skills",
+    "  [g]projects[/g]        key projects",
     "  [g]certs[/g]           certifications",
     "  [g]topics[/g]          what the blog covers (honest sizing)",
     "  [g]posts[/g]           list posts from the live blog feed",
@@ -104,14 +107,17 @@
     "whoami": function () {
       printLines([
         "",
-        "[w]Mahmud Elgoueri[/w] [d]— systems engineer[/d]",
+        "[w]Mahmud Elgoueri[/w] [d]— systems & hybrid infrastructure engineer · Tripoli, Libya[/d]",
         "",
-        "Specialising in Microsoft hybrid infrastructure — bridging on-premises",
-        "Active Directory and Windows Server with Azure and Microsoft Entra ID.",
+        "Telecommunications Engineering background, enterprise delivery in the",
+        "oil & gas sector. I design and support hybrid environments spanning",
+        "on-prem Windows Server and Azure / Entra ID, harden AD and Group Policy,",
+        "and deliver network segmentation across switches and firewalls.",
+        "Also at home in Linux, Docker, Prometheus, and Grafana.",
         "",
-        "[d]Education:[/d] Electrical & Electronic Engineering, University of Tripoli",
-        "[d]Editorial rule:[/d] every post is meant to be reproducible, with the",
-        "actual commands, configurations, and trade-offs.",
+        "[d]Education:[/d] B.Sc. Electrical & Electronic Eng. (Telecom), University of Tripoli",
+        "[d]Languages:[/d] Arabic (native) · English (professional)",
+        "[d]More:[/d] [g]experience[/g] · [g]skills[/g] · [g]projects[/g] · [g]certs[/g]",
         ""
       ]);
     },
@@ -119,12 +125,64 @@
     "certs": function () {
       printLines([
         "",
-        "[g][✓][/g] [w]AZ-800 / AZ-801[/w]  Windows Server Hybrid Administrator",
-        "[g][✓][/g] [w]AZ-104[/w]           Azure Administrator Associate",
+        "[g][✓][/g] [w]AZ-800 / AZ-801[/w]  Windows Server Hybrid Administrator — 2026",
+        "[g][✓][/g] [w]AZ-104[/w]           Azure Administrator Associate — 2026",
+        "[g][✓][/g] [w]FCA[/w]              Fortinet Certified Associate · FortiGate 7.4 Operator",
+        "[g][✓][/g] [w]HCIA-Security[/w]    Huawei Certified ICT Associate — 2025",
         "[g][✓][/g] [w]AZ-900[/w]           Azure Fundamentals",
-        "[g][✓][/g] [w]HCIA-Security[/w]    Huawei Certified ICT Associate",
+        "[g][+][/g] [w]Bootcamp[/w]         Cybersecurity — LATI & NETSCOUT (6-week intensive)",
         "",
         "[d]verify:[/d] [u:https://learn.microsoft.com/en-us/users/]learn.microsoft.com[/u] [d]·[/d] [u:https://e.huawei.com/en/talent/cert/]e.huawei.com/talent[/u]",
+        ""
+      ]);
+    },
+
+    "experience": function () {
+      printLines([
+        "",
+        "[w]Systems & Hybrid Infrastructure Engineer[/w]",
+        "[g]Electron Technology Solutions[/g] [d]· Tripoli, Libya · Jun 2025 — present · oil & gas[/d]",
+        "",
+        "  [g]>[/g] Enterprise AD domain across 6 distributed field sites; deployed",
+        "    on-site at 3 fields and trained the local IT teams",
+        "  [g]>[/g] GPO design & auditing for security compliance — less config drift",
+        "  [g]>[/g] Hybrid identity: on-prem AD synced with Azure / Entra ID",
+        "  [g]>[/g] Live production network segmentation — VLANs + FortiGate policy,",
+        "    minimum downtime",
+        "  [g]>[/g] Design docs, runbooks, and handover material for every rollout",
+        ""
+      ]);
+    },
+    "exp": function () { commands.experience(); },
+
+    "skills": function () {
+      printLines([
+        "",
+        "[w]Technical skills[/w]",
+        "",
+        "  [g]identity & directory[/g]   AD DS · GPO design/audit · Entra Connect · Entra ID",
+        "  [g]cloud & hybrid[/g]         Azure (AZ-104) · hybrid DC · M365",
+        "  [g]windows & virt[/g]         Windows Server 2016–2025 · VMware/vCenter · PowerShell",
+        "  [g]network & security[/g]     VLANs · FortiGate · pfSense · hardening",
+        "  [g]linux & containers[/g]     Ubuntu · Docker/Compose · Prometheus · Grafana",
+        "  [g]delivery[/g]               design docs · runbooks · assessments · training",
+        ""
+      ]);
+    },
+
+    "projects": function () {
+      printLines([
+        "",
+        "[w]Key projects[/w]",
+        "",
+        "  [g]1[/g]  [w]5G Standalone Core[/w] [d](2025, graduation project)[/d]",
+        "     containerised 5G SA core on Docker + Prometheus/Grafana KPI pipeline",
+        "  [g]2[/g]  [w]Enterprise Domain Rollout[/w] [d](2025, oil & gas)[/d]",
+        "     identity + GPO + hardening standardised across 6 field sites",
+        "  [g]3[/g]  [w]Production Network Segmentation[/w] [d](2025)[/d]",
+        "     VLANs + FortiGate policy on a live network, minimal downtime",
+        "  [g]4[/g]  [w]Home Lab & Technical Blog[/w] [d](ongoing)[/d]",
+        "     virtualisation + Docker lab → the write-ups on the blog",
         ""
       ]);
     },
@@ -227,9 +285,11 @@
 
     "contact": function () {
       var addr = ["mahmudeg2000", "gmail.com"].join("@");
+      var num = ["+218", "92", "778", "5022"].join(" ");
       printLines([
         "",
         "[g][+][/g] decrypting… [w]" + addr + "[/w]",
+        "[g][+][/g] phone       [w]" + num + "[/w]",
         "[d]    (LinkedIn is the primary channel for opportunities)[/d]",
         ""
       ]);
@@ -264,7 +324,7 @@
       print("[r]mahmud is not in the sudoers file. This incident will be reported.[/r]");
     },
     "ls": function () {
-      print("[g]whoami[/g]  [g]certs[/g]  [g]topics[/g]  [g]posts[/g]  [g]featured[/g]  [g]ctf[/g]  [g]social[/g]  [g]contact[/g]");
+      print("[g]whoami[/g]  [g]experience[/g]  [g]skills[/g]  [g]projects[/g]  [g]certs[/g]  [g]topics[/g]  [g]posts[/g]  [g]featured[/g]  [g]ctf[/g]  [g]social[/g]  [g]contact[/g]");
     },
     "pwd": function () { print("/home/mahmud/landing"); },
     "date": function () { print(new Date().toString()); },
