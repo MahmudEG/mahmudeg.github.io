@@ -38,6 +38,10 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
+        with:
+          # (Re-)enable the Pages site configured for GitHub Actions builds if
+          # the repo's Pages state was lost (fixes "Get Pages site failed").
+          enablement: true
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
