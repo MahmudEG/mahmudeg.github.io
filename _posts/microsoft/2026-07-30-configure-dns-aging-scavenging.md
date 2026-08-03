@@ -12,7 +12,7 @@ tags:
   - Identity
 by: Mahmud
 image:
-  path: /assets/img/dns-scavenging.png
+  path: 
 published: true
 ---
 
