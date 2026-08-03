@@ -74,6 +74,7 @@
     "  [g]skills[/g]          technical skills",
     "  [g]projects[/g]        key projects",
     "  [g]certs[/g]           certifications",
+    "  [g]cv[/g]              download my CV (pdf)",
     "  [g]topics[/g]          what the blog covers (honest sizing)",
     "  [g]posts[/g]           list posts from the live blog feed",
     "  [g]open[/g] [d]<n>[/d]        open post <n> from the last listing",
@@ -140,20 +141,31 @@
     "experience": function () {
       printLines([
         "",
-        "[w]Systems & Hybrid Infrastructure Engineer[/w]",
-        "[g]Electron Technology Solutions[/g] [d]· Tripoli, Libya · Jun 2025 — present · oil & gas[/d]",
+        "[w]System Engineer — IT Infrastructure[/w]",
+        "[g]Electron Technology Solutions[/g] [d]· Tripoli, Libya · Jun 2025 — present[/d]",
         "",
-        "  [g]>[/g] Enterprise AD domain across 6 distributed field sites; deployed",
-        "    on-site at 3 fields and trained the local IT teams",
-        "  [g]>[/g] GPO design & auditing for security compliance — less config drift",
-        "  [g]>[/g] Hybrid identity: on-prem AD synced with Azure / Entra ID",
-        "  [g]>[/g] Live production network segmentation — VLANs + FortiGate policy,",
-        "    minimum downtime",
-        "  [g]>[/g] Design docs, runbooks, and handover material for every rollout",
+        "  [g]>[/g] Managed & supported Windows Server environments and Active",
+        "    Directory; documented procedures and knowledge-base articles",
+        "  [g]>[/g] Configured & supported network devices (routers, switches)",
+        "    and endpoints",
+        "  [g]>[/g] Troubleshot LAN/WAN connectivity and VPN issues; remote",
+        "    support via RDP and AnyDesk",
+        "  [g]>[/g] Software installations, OS updates, and system configuration",
+        "  [g]>[/g] Documented recurring issues; contributed to the team KB",
         ""
       ]);
     },
     "exp": function () { commands.experience(); },
+
+    "cv": function () {
+      print("[g][+][/g] fetching Mahmud_Elgoueri_CV.pdf …");
+      var a = document.createElement("a");
+      a.href = "assets/Mahmud_Elgoueri_CV.pdf";
+      a.download = "Mahmud_Elgoueri_CV.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    },
 
     "skills": function () {
       printLines([
@@ -177,11 +189,7 @@
         "",
         "  [g]1[/g]  [w]5G Standalone Core[/w] [d](2025, graduation project)[/d]",
         "     containerised 5G SA core on Docker + Prometheus/Grafana KPI pipeline",
-        "  [g]2[/g]  [w]Enterprise Domain Rollout[/w] [d](2025, oil & gas)[/d]",
-        "     identity + GPO + hardening standardised across 6 field sites",
-        "  [g]3[/g]  [w]Production Network Segmentation[/w] [d](2025)[/d]",
-        "     VLANs + FortiGate policy on a live network, minimal downtime",
-        "  [g]4[/g]  [w]Home Lab & Technical Blog[/w] [d](ongoing)[/d]",
+        "  [g]2[/g]  [w]Home Lab & Technical Blog[/w] [d](ongoing)[/d]",
         "     virtualisation + Docker lab → the write-ups on the blog",
         ""
       ]);
@@ -324,7 +332,7 @@
       print("[r]mahmud is not in the sudoers file. This incident will be reported.[/r]");
     },
     "ls": function () {
-      print("[g]whoami[/g]  [g]experience[/g]  [g]skills[/g]  [g]projects[/g]  [g]certs[/g]  [g]topics[/g]  [g]posts[/g]  [g]featured[/g]  [g]ctf[/g]  [g]social[/g]  [g]contact[/g]");
+      print("[g]whoami[/g]  [g]experience[/g]  [g]skills[/g]  [g]projects[/g]  [g]certs[/g]  [g]cv[/g]  [g]topics[/g]  [g]posts[/g]  [g]featured[/g]  [g]ctf[/g]  [g]social[/g]  [g]contact[/g]");
     },
     "pwd": function () { print("/home/mahmud/landing"); },
     "date": function () { print(new Date().toString()); },
