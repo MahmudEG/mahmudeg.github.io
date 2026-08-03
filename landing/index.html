@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="noob">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mahmud Elgoueri — Hybrid Microsoft Infrastructure Engineer</title>
+  <meta name="description" content="Hands-on labs, real-world troubleshooting, and study crams from a Microsoft hybrid infrastructure engineer - Windows Server, Active Directory, Azure, Entra ID, and security.">
+  <meta name="theme-color" content="#0a0a0c">
+  <meta property="og:title" content="Mahmud Elgoueri — Hybrid Microsoft Infrastructure Engineer">
+  <meta property="og:description" content="Hands-on labs, real-world troubleshooting, and study crams — Windows Server, Active Directory, Azure, Entra ID, and security.">
+  <meta property="og:image" content="https://mahmudeg.github.io/assets/Profileimage.jpg">
+  <link rel="icon" href="https://mahmudeg.github.io/assets/img/favicons/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&family=Lato:wght@300;400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=4">
+</head>
+<body>
+
+  <!-- ======================= NAV ======================= -->
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="#top" aria-label="Home">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="7" stroke="var(--accent)" stroke-width="2"/>
+        <path d="M8 21V11l4.5 6L17 11v10" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20.5 21h4" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" class="logo-cursor"/>
+      </svg>
+      <span class="nav__logo-text">mahmud<span class="accent">_eg</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#topics">Topics</a>
+      <a href="#featured">Featured</a>
+      <a href="#posts">Posts</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="https://mahmudeg.github.io/blog/" class="nav__blog-link" target="_blank" rel="noopener">Blog
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__clock" id="clock" aria-hidden="true">
+        <span id="clock-time">00:00:00</span>
+      </div>
+      <button class="mode-toggle" id="mode-toggle" role="switch" aria-checked="false" aria-label="Switch between full UI (noob) and terminal (pro) mode">
+        <span class="mode-toggle__opt mode-toggle__opt--noob">NOOB</span>
+        <span class="mode-toggle__thumb" aria-hidden="true"></span>
+        <span class="mode-toggle__opt mode-toggle__opt--pro">PRO</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================= NOOB MODE (full UI) ======================= -->
+  <main id="ui-root">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <canvas id="scene" aria-hidden="true"></canvas>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <p class="hero__kicker mono"><span class="blink">▮</span> systems engineer // hybrid microsoft infrastructure</p>
+        <h1 class="hero__title">
+          <span class="hero__title-line">Mahmud</span>
+          <span class="hero__title-line hero__title-line--outline">Elgoueri</span>
+        </h1>
+        <p class="hero__sub" id="typed-sub" data-text="Windows Server · Active Directory · Azure &amp; Entra ID — hands-on labs, real-world troubleshooting, and study crams."></p>
+        <p class="hero__proof">Every post is meant to be reproducible — with the actual commands, configurations, and trade-offs.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="https://mahmudeg.github.io/blog/" target="_blank" rel="noopener">
+            Read the blog
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="https://www.linkedin.com/in/mahmud-elgoueri/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+        </div>
+      </div>
+      <div class="hero__scroll mono" aria-hidden="true">scroll ▾</div>
+    </section>
+
+    <!-- CREDENTIALS STRIP -->
+    <section class="creds" aria-label="Certifications">
+      <div class="creds__track">
+        <div class="creds__set">
+          <span class="cred"><span class="cred__code">AZ-800</span> Windows Server Hybrid Administrator</span>
+          <span class="cred"><span class="cred__code">AZ-801</span> Windows Server Hybrid Administrator</span>
+          <span class="cred"><span class="cred__code">AZ-104</span> Azure Administrator Associate</span>
+          <span class="cred"><span class="cred__code">AZ-900</span> Azure Fundamentals</span>
+          <span class="cred"><span class="cred__code">HCIA</span> HCIA-Security · Huawei Certified ICT Associate</span>
+          <span class="cred"><span class="cred__code">B.Eng</span> Electrical &amp; Electronic Engineering · University of Tripoli</span>
+        </div>
+        <div class="creds__set" aria-hidden="true">
+          <span class="cred"><span class="cred__code">AZ-800</span> Windows Server Hybrid Administrator</span>
+          <span class="cred"><span class="cred__code">AZ-801</span> Windows Server Hybrid Administrator</span>
+          <span class="cred"><span class="cred__code">AZ-104</span> Azure Administrator Associate</span>
+          <span class="cred"><span class="cred__code">AZ-900</span> Azure Fundamentals</span>
+          <span class="cred"><span class="cred__code">HCIA</span> HCIA-Security · Huawei Certified ICT Associate</span>
+          <span class="cred"><span class="cred__code">B.Eng</span> Electrical &amp; Electronic Engineering · University of Tripoli</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICS -->
+    <section class="section" id="topics">
+      <div class="section__head reveal">
+        <p class="section__label mono">01 / topics</p>
+        <h2 class="section__title">What I write about</h2>
+      </div>
+      <div class="topics">
+        <a class="topic topic--lg reveal" href="https://mahmudeg.github.io/blog/tags/active-directory/" target="_blank" rel="noopener">
+          <div class="topic__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M6 7h6M6 10.5h9"/></svg>
+          </div>
+          <h3>Systems &amp; Identity</h3>
+          <p>Windows Server, Active Directory, and hybrid identity with Entra ID — the center of gravity. gMSA deployments, AD CS hardening, Sysprep forensics, Windows Hello for Business.</p>
+          <span class="topic__meta mono" id="count-systems">core focus → newest &amp; deepest labs</span>
+        </a>
+        <a class="topic topic--lg reveal" href="https://mahmudeg.github.io/blog/categories/cybersecurity/" target="_blank" rel="noopener">
+          <div class="topic__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Cybersecurity</h3>
+          <p>Defensive AD security and hands-on CTF work — certificate-template abuse (ESC1) detection and remediation, plus a full TryHackMe write-up series.</p>
+          <span class="topic__meta mono" id="count-cyber">10 posts → hardening + writeups</span>
+        </a>
+        <a class="topic reveal" href="https://mahmudeg.github.io/blog/categories/azure/" target="_blank" rel="noopener">
+          <div class="topic__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17.5 19a4.5 4.5 0 100-9 6 6 0 00-11.7 1.5A3.5 3.5 0 006.5 19h11z"/></svg>
+          </div>
+          <h3>Cloud</h3>
+          <p>Azure for people coming from on-prem — what maps over, what doesn't.</p>
+          <span class="topic__meta mono">growing pillar</span>
+        </a>
+        <a class="topic reveal" href="https://mahmudeg.github.io/blog/categories/networking/" target="_blank" rel="noopener">
+          <div class="topic__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><path d="M12 8v4M12 12H5v4M12 12h7v4"/></svg>
+          </div>
+          <h3>Networking</h3>
+          <p>Redundancy protocols — STP, HSRP, VRRP — tested to failure in EVE-NG.</p>
+          <span class="topic__meta mono">lab bench</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FEATURED POST -->
+    <section class="section" id="featured">
+      <div class="section__head reveal">
+        <p class="section__label mono">02 / flagship lab</p>
+        <h2 class="section__title">Featured from the lab</h2>
+      </div>
+      <a class="featured reveal" href="https://mahmudeg.github.io/blog/posts/deploy-hybrid-file-share-azure-file-sync/" target="_blank" rel="noopener">
+        <div class="featured__glow" aria-hidden="true"></div>
+        <div class="featured__body">
+          <div class="featured__tags mono">
+            <span class="chip chip--hot">AD CS</span><span class="chip">PKI</span><span class="chip">Zero Trust</span><span class="chip">PowerShell</span>
+          </div>
+          <h3>Detect and Remediate an AD CS ESC1 Certificate Template</h3>
+          <p>Find the certificate template that lets any domain user request a cert as Domain Admin, prove the exposure, and close it: audit templates with PowerShell, enable CA auditing, and remove <code>ENROLLEE_SUPPLIES_SUBJECT</code> — with verification at every step.</p>
+          <span class="featured__cta mono">open the lab →</span>
+        </div>
+        <div class="featured__term mono" aria-hidden="true">
+          <div class="featured__term-bar"><i></i><i></i><i></i></div>
+          <pre>PS C:\&gt; Get-ADObject -Filter * -SearchBase $tplDN |
+&nbsp;&nbsp;Where { $_."msPKI-Certificate-Name-Flag" -band 1 }
+
+[!] ESC1: ENROLLEE_SUPPLIES_SUBJECT enabled
+[!] Enrollment: Domain Users — ALLOWED
+[+] Remediating template flags…
+[✓] Exposure closed. Verified.</pre>
+        </div>
+      </a>
+    </section>
+
+    <!-- LATEST POSTS -->
+    <section class="section" id="posts">
+      <div class="section__head reveal">
+        <p class="section__label mono">03 / transmission log</p>
+        <h2 class="section__title">Latest from the blog</h2>
+        <p class="section__status mono" id="feed-status">fetching mahmudeg.github.io/assets/js/data/search.json …</p>
+      </div>
+      <div class="posts" id="posts-grid"><!-- populated by JS, static fallback baked in main.js --></div>
+      <div class="section__foot reveal">
+        <a class="btn btn--ghost" href="https://mahmudeg.github.io/blog/archives/" target="_blank" rel="noopener">Browse the full archive</a>
+      </div>
+    </section>
+
+    <!-- CTF SERIES -->
+    <section class="section" id="series">
+      <a class="series reveal" href="https://mahmudeg.github.io/blog/tags/advent-of-cyber/" target="_blank" rel="noopener">
+        <div class="series__left">
+          <p class="section__label mono">04 / ctf collection</p>
+          <h3>Advent of Cyber 2024 — the write-up series</h3>
+          <p>Eight consecutive TryHackMe rooms, documented day by day: GRC, phishing &amp; macro payloads, WPA cracking, race conditions, WebSockets, SOC ops, AD breach investigation, and Azure Key Vault.</p>
+          <span class="featured__cta mono">read the series →</span>
+        </div>
+        <div class="series__days mono" aria-hidden="true">
+          <span>d9</span><span>d10</span><span>d11</span><span>d12</span><span>d13</span><span>d14</span><span>d15</span><span>d16</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="about">
+        <div class="about__portrait reveal">
+          <div class="about__frame">
+            <img src="https://mahmudeg.github.io/assets/Profileimage.jpg" alt="Portrait of Mahmud Elgoueri" loading="lazy" width="280" height="280">
+            <div class="about__scan" aria-hidden="true"></div>
+          </div>
+          <p class="mono about__id">// mahmud elgoueri — systems engineer</p>
+        </div>
+        <div class="about__text reveal">
+          <p class="section__label mono">05 / whoami</p>
+          <h2 class="section__title">About</h2>
+          <p>Systems engineer specialising in Microsoft hybrid infrastructure — bridging on-premises Active Directory and Windows Server with Azure and Microsoft Entra ID. Electrical and Electronic Engineering graduate, University of Tripoli.</p>
+          <p>The blog has one editorial rule: <strong>every post is meant to be reproducible</strong>, with the actual commands, configurations, and trade-offs.</p>
+        </div>
+      </div>
+
+      <!-- certification badges -->
+      <div class="badges reveal" aria-label="Certification badges">
+        <a class="badge-card" href="https://learn.microsoft.com/en-us/credentials/certifications/windows-server-hybrid-administrator/" target="_blank" rel="noopener">
+          <img src="https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-associate-badge.svg" alt="Microsoft Certified Associate badge" width="88" height="88" loading="lazy">
+          <strong>Windows Server Hybrid Administrator</strong>
+          <span class="mono badge-card__code">AZ-800 · AZ-801</span>
+        </a>
+        <a class="badge-card" href="https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/" target="_blank" rel="noopener">
+          <img src="https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-associate-badge.svg" alt="Microsoft Certified Associate badge" width="88" height="88" loading="lazy">
+          <strong>Azure Administrator Associate</strong>
+          <span class="mono badge-card__code">AZ-104</span>
+        </a>
+        <a class="badge-card" href="https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/" target="_blank" rel="noopener">
+          <img src="https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg" alt="Microsoft Certified Fundamentals badge" width="88" height="88" loading="lazy">
+          <strong>Azure Fundamentals</strong>
+          <span class="mono badge-card__code">AZ-900</span>
+        </a>
+        <a class="badge-card" href="https://e.huawei.com/en/talent/cert/" target="_blank" rel="noopener">
+          <svg class="badge-card__hcia" width="88" height="88" viewBox="0 0 88 88" fill="none" aria-hidden="true">
+            <path d="M44 4L78 17v26c0 20-14.5 33.5-34 39C24.5 76.5 10 63 10 43V17L44 4z" fill="#1f1214" stroke="#e6383e" stroke-width="2.5"/>
+            <path d="M44 14L69 24v19c0 14.6-10.6 24.8-25 29.4C29.6 67.8 19 57.6 19 43V24l25-10z" fill="none" stroke="#e6383e" stroke-width="1" opacity="0.45"/>
+            <text x="44" y="42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" fill="#ff6b6f">HCIA</text>
+            <text x="44" y="58" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#d8969a">SECURITY</text>
+          </svg>
+          <strong>HCIA-Security</strong>
+          <span class="mono badge-card__code">Huawei Certified ICT Associate</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section section--contact" id="contact">
+      <div class="contact reveal">
+        <p class="section__label mono">06 / open a channel</p>
+        <h2 class="section__title">Get in touch</h2>
+        <div class="contact__links">
+          <a class="contact__link" href="https://www.linkedin.com/in/mahmud-elgoueri/" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14.8H.2V8zm7.6 0h4.4v2h.06c.62-1.16 2.12-2.4 4.36-2.4 4.66 0 5.52 3.06 5.52 7.04v8.16h-4.6v-7.24c0-1.72-.04-3.94-2.4-3.94-2.4 0-2.78 1.88-2.78 3.82v7.36H7.8V8z"/></svg>
+            LinkedIn <span class="mono contact__hint">primary channel</span>
+          </a>
+          <a class="contact__link" href="https://github.com/MahmudEG" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.9 10.9 0 015.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.24 2.75.12 3.04.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.2.66.8.55A11.52 11.52 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+            GitHub
+          </a>
+          <a class="contact__link" href="https://www.reddit.com/user/Mahmud-Eg/" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a2.4 2.4 0 00-4.06-1.73 11.72 11.72 0 00-6.4-2.03l1.09-5.12 3.56.76a1.71 1.71 0 10.17-.84l-3.97-.84a.43.43 0 00-.51.33l-1.21 5.7a11.75 11.75 0 00-6.49 2.04A2.4 2.4 0 102.4 14.1c-.03.22-.05.45-.05.68 0 3.45 4.02 6.26 8.97 6.26s8.97-2.8 8.97-6.26c0-.22-.02-.45-.05-.67A2.4 2.4 0 0024 12zM6.85 13.71a1.71 1.71 0 113.43 0 1.71 1.71 0 01-3.43 0zm9.58 4.55c-1.17 1.17-3.42 1.26-4.08 1.26-.66 0-2.9-.09-4.08-1.26a.45.45 0 01.64-.64c.74.74 2.32 1 3.44 1 1.12 0 2.7-.26 3.44-1a.45.45 0 11.64.64zm-.3-2.84a1.71 1.71 0 111.71-1.71 1.71 1.71 0 01-1.71 1.71z"/></svg>
+            Reddit
+          </a>
+          <a class="contact__link" href="#contact" id="email-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6L22 7"/></svg>
+            <span id="email-text">email — click to reveal</span>
+          </a>
+          <a class="contact__link" href="https://mahmudeg.github.io/blog/feed.xml" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11a9 9 0 019 9h3A12 12 0 004 8v3zm0-7v3a13 13 0 0113 13h3A16 16 0 004 4zm2 12a2 2 0 100 4 2 2 0 000-4z"/></svg>
+            RSS / Atom
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="mono">© 2026 Mahmud Elgoueri</p>
+      <p class="mono footer__hint">psst — flip the switch to <button class="footer__pro" id="footer-pro">PRO</button> if GUIs bore you</p>
+    </footer>
+  </main>
+
+  <!-- ======================= PRO MODE (terminal) ======================= -->
+  <div id="terminal-root" class="terminal" hidden aria-label="Terminal interface">
+    <div class="terminal__chrome" aria-hidden="true">
+      <div class="terminal__dots"><i></i><i></i><i></i></div>
+      <span class="mono">mahmud@mahmudeg: ~</span>
+      <span class="mono terminal__chrome-hint">NOOB toggle ↗ to go back</span>
+    </div>
+    <div class="terminal__screen" id="term-screen">
+      <div id="term-output"></div>
+      <div class="terminal__inputline">
+        <span class="terminal__prompt mono" id="term-prompt"><span class="t-user">mahmud@mahmudeg</span>:<span class="t-path">~</span>$&nbsp;</span>
+        <input class="terminal__input mono" id="term-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command input">
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="assets/js/scene.js"></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/terminal.js" defer></script>
+</body>
+</html>

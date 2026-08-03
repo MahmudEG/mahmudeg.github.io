@@ -150,7 +150,8 @@ pwa:
 paginate: 10
 
 # The base URL of your site
-baseurl: ""
+# The blog lives under /blog; the landing page (landing/) is served at the site root.
+baseurl: "/blog"
 
 # ------------ The following options are not recommended to be modified ------------------
 
@@ -216,6 +217,7 @@ exclude:
   - rollup.config.js
   - "package*.json"
   - deploy.sh
+  - landing
 
 jekyll-archives:
   enabled: [categories, tags]
