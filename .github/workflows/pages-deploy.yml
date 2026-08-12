@@ -35,13 +35,13 @@ jobs:
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
 
+      # Do NOT set `enablement: true` here. It re-registers the Pages site with a
+      # branch source, which flips the repo back to the legacy Jekyll builder —
+      # that builder then publishes the raw repo source and takes the real site
+      # down. Pages must stay on build_type "workflow".
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
-        with:
-          # (Re-)enable the Pages site configured for GitHub Actions builds if
-          # the repo's Pages state was lost (fixes "Get Pages site failed").
-          enablement: true
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
