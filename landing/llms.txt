@@ -1,0 +1,60 @@
+# Mahmud Elgoueri
+
+> Systems and hybrid infrastructure engineer based in Tripoli, Libya. Works across
+> on-premises Windows Server and Active Directory and Microsoft Azure / Entra ID:
+> hybrid identity, Group Policy hardening, Active Directory security, and network
+> segmentation. Publishes reproducible technical labs at mahmudeg.github.io/blog.
+
+Personal site (`/`) and technical blog (`/blog/`) for Mahmud Elgoueri. The blog's
+editorial rule is that every post is reproducible: it contains the actual commands,
+configurations, and trade-offs rather than a summary.
+
+## Profile
+
+- Name: Mahmud Elgoueri
+- Role: Systems & Hybrid Infrastructure Engineer at Electron Technology Solutions (June 2025 – present)
+- Location: Tripoli, Libya
+- Education: B.Sc. Electrical & Electronic Engineering (Telecommunications), University of Tripoli
+- Languages: Arabic (native), English (professional working proficiency)
+
+## Certifications
+
+- Microsoft Certified: Windows Server Hybrid Administrator Associate (AZ-800, AZ-801)
+- Microsoft Certified: Azure Administrator Associate (AZ-104)
+- Microsoft Certified: Azure Fundamentals (AZ-900)
+- Fortinet Certified Associate (FCA) in Cybersecurity — FortiGate 7.4 Operator
+- HCIA-Security — Huawei
+- Cybersecurity Boot Camp — LATI & NETSCOUT (6-week intensive)
+
+## Areas of expertise
+
+- Identity and directory: Active Directory DS, Group Policy design and auditing, hybrid identity, Entra Connect / Cloud Sync, Microsoft Entra ID
+- Cloud and hybrid: Microsoft Azure, hybrid data center, Azure to on-premises synchronization, Microsoft 365
+- Windows and virtualization: Windows Server 2016–2025, VMware / vCenter, PowerShell automation
+- Networking and security: VLAN design and segmentation, FortiGate, pfSense, policy-based firewall rules, security hardening
+- Linux and containers: Ubuntu administration, Docker and Docker Compose, Prometheus, Grafana
+
+## Key pages
+
+- [Personal site](https://mahmudeg.github.io/): profile, skills, experience, projects, certifications, contact
+- [Blog home](https://mahmudeg.github.io/blog/): all posts, newest first
+- [About](https://mahmudeg.github.io/blog/about/): author bio and reading guide
+- [Archives](https://mahmudeg.github.io/blog/archives/): every post by year
+- [Categories](https://mahmudeg.github.io/blog/categories/): browse by topic
+- [Atom feed](https://mahmudeg.github.io/blog/feed.xml): machine-readable feed of recent posts
+- [Search index](https://mahmudeg.github.io/blog/assets/js/data/search.json): JSON array of every post with title, url, categories, tags, date, and full body text
+
+## Representative posts
+
+- [Detect and Remediate an AD CS ESC1 Certificate Template](https://mahmudeg.github.io/blog/posts/deploy-hybrid-file-share-azure-file-sync/): finds the certificate template that lets any domain user request a certificate as Domain Admin, proves the exposure, and closes it by auditing templates with PowerShell, enabling CA auditing, and removing ENROLLEE_SUPPLIES_SUBJECT.
+- [Configure DNS Aging and Scavenging on AD-Integrated DNS](https://mahmudeg.github.io/blog/posts/configure-dns-aging-scavenging-Copy/): enables DNS aging and scavenging safely — no-refresh and refresh intervals, per-zone aging, scavenging pinned to a single domain controller, and proof that stale records are removed.
+- [Deploy a Group Managed Service Account (gMSA) for a Scheduled Task](https://mahmudeg.github.io/blog/posts/deploy-gmsa-scheduled-task/): replaces a static service-account password with a domain-managed gMSA, from KDS root key to a scheduled task running under it.
+- [Windows Hello for Business in a Hybrid Environment](https://mahmudeg.github.io/blog/posts/windows-hello-for-business-hybrid/): Key Trust deployment with Azure AD MFA across hybrid Active Directory and Entra ID, including the blockers that break it in production.
+- [Azure for the On-Prem Sysadmin: What Actually Changes](https://mahmudeg.github.io/blog/posts/azure-for-the-on-prem-sysadmin/): Azure explained for administrators coming from Windows Server and Active Directory.
+- [Redundancy Protocols Lab: STP, HSRP, and VRRP in EVE-NG](https://mahmudeg.github.io/blog/posts/redundancy-protocols-lab/): failover behaviour of the three protocols compared in a multi-switch topology.
+
+## Contact
+
+- LinkedIn (primary): https://www.linkedin.com/in/mahmud-elgoueri/
+- GitHub: https://github.com/MahmudEG
+- Email and phone are published on the personal site behind a click-to-reveal control and are intentionally not listed here.

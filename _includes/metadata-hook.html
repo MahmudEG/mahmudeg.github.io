@@ -1,0 +1,112 @@
+<!-- Custom metadata: author entity + crawler directives.
+     Overrides the theme placeholder (_includes/metadata-hook.html).
+     The Person @id matches the landing page's, so both sites describe one entity. -->
+
+<meta name="author" content="Mahmud Elgoueri">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "{{ site.url }}/#person",
+      "name": "Mahmud Elgoueri",
+      "givenName": "Mahmud",
+      "familyName": "Elgoueri",
+      "url": "{{ site.url }}/",
+      "image": "{{ site.url }}/assets/Profileimage.jpg",
+      "jobTitle": "Systems & Hybrid Infrastructure Engineer",
+      "description": "Systems and hybrid infrastructure engineer specialising in Windows Server, Active Directory, Microsoft Azure and Entra ID, with hands-on network segmentation and security hardening experience.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tripoli",
+        "addressCountry": "LY"
+      },
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Tripoli"
+      },
+      "knowsAbout": [
+        "Active Directory",
+        "Windows Server",
+        "Microsoft Entra ID",
+        "Microsoft Azure",
+        "Group Policy",
+        "Hybrid identity",
+        "Active Directory Certificate Services",
+        "Network segmentation",
+        "FortiGate",
+        "PowerShell",
+        "Docker",
+        "Cybersecurity"
+      ],
+      "knowsLanguage": ["ar", "en"],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Microsoft Certified: Windows Server Hybrid Administrator Associate (AZ-800, AZ-801)",
+          "credentialCategory": "certification",
+          "recognizedBy": { "@type": "Organization", "name": "Microsoft" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Microsoft Certified: Azure Administrator Associate (AZ-104)",
+          "credentialCategory": "certification",
+          "recognizedBy": { "@type": "Organization", "name": "Microsoft" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Fortinet Certified Associate (FCA) in Cybersecurity",
+          "credentialCategory": "certification",
+          "recognizedBy": { "@type": "Organization", "name": "Fortinet" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "HCIA-Security",
+          "credentialCategory": "certification",
+          "recognizedBy": { "@type": "Organization", "name": "Huawei" }
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/mahmud-elgoueri/",
+        "https://github.com/MahmudEG",
+        "https://www.reddit.com/user/Mahmud-Eg/"
+      ]
+    },
+    {
+      "@type": "Blog",
+      "@id": "{{ site.url }}/blog/#blog",
+      "url": "{{ site.url }}/blog/",
+      "name": {{ site.title | jsonify }},
+      "description": {{ site.description | strip_newlines | strip | jsonify }},
+      "inLanguage": "en",
+      "author": { "@id": "{{ site.url }}/#person" },
+      "publisher": { "@id": "{{ site.url }}/#person" },
+      "isPartOf": { "@id": "{{ site.url }}/#website" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ site.url }}/#website",
+      "url": "{{ site.url }}/",
+      "name": "Mahmud Elgoueri",
+      "inLanguage": "en",
+      "publisher": { "@id": "{{ site.url }}/#person" }
+    }
+  ]
+}
+</script>
+{%- if page.layout == 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "{{ site.url }}/blog/" },
+    { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }}, "item": "{{ site.url }}{{ page.url }}" }
+  ]
+}
+</script>
+{%- endif %}

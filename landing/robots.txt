@@ -1,0 +1,38 @@
+# https://mahmudeg.github.io/
+# Root robots.txt — covers the landing page at / and the blog at /blog/.
+# (A robots.txt is only honoured at the origin root, so /blog/robots.txt is ignored.)
+
+User-agent: *
+Allow: /
+Disallow: /norobots/
+
+# AI answer engines are allowed deliberately: the goal is for this content to be
+# retrievable and citable. Remove a block below to opt that crawler out.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://mahmudeg.github.io/sitemap.xml

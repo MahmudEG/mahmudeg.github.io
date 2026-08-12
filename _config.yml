@@ -21,6 +21,9 @@ tagline: Hybrid Microsoft Infrastructure - Windows Server, Active Directory, Azu
 description: >- # used by seo meta and the atom feed
    Hands-on labs, real-world troubleshooting, and study crams from a Microsoft hybrid infrastructure engineer - Windows Server, Active Directory, Azure, Entra ID, and security.
 
+# Read by jekyll-seo-tag: adds the author to each post's BlogPosting structured data.
+author: Mahmud Elgoueri
+
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
 url: "https://mahmudeg.github.io"

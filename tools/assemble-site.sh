@@ -44,6 +44,37 @@ cp "$SITE/blog/feed.xml" "$SITE/feed.xml"                       # old feed subsc
 mkdir -p "$SITE/assets/img"
 cp "$SITE/blog/assets/Profileimage.jpg" "$SITE/assets/" 2>/dev/null || true   # old og:image refs
 cp -r "$SITE/blog/assets/img/favicons" "$SITE/assets/img/" 2>/dev/null || true
-[ -f "$SITE/blog/robots.txt" ] && cp "$SITE/blog/robots.txt" "$SITE/robots.txt"
+# NOTE: robots.txt at the root comes from landing/robots.txt (copied in step 1).
+# The blog's own /blog/robots.txt is ignored by crawlers — only the origin root counts.
 
-echo "assembled: landing at /, blog at /blog, $stub_count redirect stubs"
+# 4. Sitemaps. Jekyll only knows about the blog, so the landing page needs its own
+# sitemap, and a sitemap index at the root ties both together for search engines.
+TODAY="$(date -u +%Y-%m-%d)"
+
+cat > "$SITE/sitemap-pages.xml" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>$ORIGIN/</loc>
+    <lastmod>$TODAY</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+EOF
+
+cat > "$SITE/sitemap.xml" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>$ORIGIN/sitemap-pages.xml</loc>
+    <lastmod>$TODAY</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>$ORIGIN/blog/sitemap.xml</loc>
+    <lastmod>$TODAY</lastmod>
+  </sitemap>
+</sitemapindex>
+EOF
+
+echo "assembled: landing at /, blog at /blog, $stub_count redirect stubs, sitemap index"
