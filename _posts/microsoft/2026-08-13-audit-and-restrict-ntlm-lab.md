@@ -13,7 +13,7 @@ tags:
   - Kerberos
 by: Mahmud
 image:
-  path: /assets/img/ntlm.png
+  path: /assets/img/NTLM.png
 published: true
 ---
 
