@@ -13,7 +13,7 @@ tags:
   - Kerberos
 by: Mahmud
 image:
-  path: https://learn.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/images/network-security-restrict-ntlm-audit-ntlm-authentication-in-this-domain.png
+  path: /assets/img/ntlm.png
 published: true
 ---
 
