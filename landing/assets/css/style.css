@@ -564,3 +564,14 @@ code {
 /* official badge images */
 .badge-card__img { border-radius: 12px; object-fit: contain; }
 .badge-card__img--light { background: #fff; padding: 5px; }
+
+/* v8: hero cheat-sheets CTA — accent outline, sits between primary and ghost */
+.btn--accent {
+  background: var(--accent-dim); color: var(--accent-bright);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 rgba(0, 230, 138, 0);
+}
+.btn--accent:hover {
+  background: rgba(0, 230, 138, 0.2); color: var(--accent-bright);
+  transform: translateY(-2px); box-shadow: 0 0 26px rgba(0, 230, 138, 0.3);
+}
