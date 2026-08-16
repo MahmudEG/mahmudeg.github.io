@@ -94,7 +94,7 @@
   // Static fallback: hand-written summaries from the source-of-truth audit (§7).
   var FALLBACK = [
     { title: "Detect and Remediate an AD CS ESC1 Certificate Template (Step-by-Step Lab)",
-      url: "/posts/deploy-hybrid-file-share-azure-file-sync/", date: "2026-07-16",
+      url: "/posts/Detect-and-Remediate-an-AD-CS-ESC1/", date: "2026-07-16",
       tags: ["Active Directory", "AD CS", "Security"],
       excerpt: "Find the certificate template that lets any domain user request a cert as Domain Admin, prove the exposure, and close it — with verification at every step." },
     { title: "Deploy a Group Managed Service Account (gMSA) for a Scheduled Task (Step-by-Step Lab)",

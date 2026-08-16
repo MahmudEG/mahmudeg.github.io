@@ -1,0 +1,17 @@
+---
+permalink: /cheatsheet/index.json
+sitemap: false
+---
+[
+  {%- assign sorted = site.cheatsheets | sort: "title" -%}
+  {%- for cs in sorted %}
+  {
+    "title": {{ cs.title | jsonify }},
+    "slug": {{ cs.slug | jsonify }},
+    "category": {{ cs.category | jsonify }},
+    "description": {{ cs.description | jsonify }},
+    "updated": {{ cs.updated | jsonify }},
+    "url": {{ cs.url | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {%- endfor %}
+]

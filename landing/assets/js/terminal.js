@@ -75,6 +75,8 @@
     "  [g]projects[/g]        key projects",
     "  [g]certs[/g]           certifications",
     "  [g]cv[/g]              download my CV (pdf)",
+    "  [g]cheatsheets[/g]     list all cheat sheets",
+    "  [g]cheatsheet[/g] [d]<name>[/d] open a cheat sheet",
     "  [g]topics[/g]          what the blog covers (honest sizing)",
     "  [g]posts[/g]           list posts from the live blog feed",
     "  [g]open[/g] [d]<n>[/d]        open post <n> from the last listing",
@@ -91,7 +93,7 @@
   ];
 
   var FALLBACK_POSTS = [
-    ["2026-07-16", "Detect and Remediate an AD CS ESC1 Certificate Template (Step-by-Step Lab)", "/posts/deploy-hybrid-file-share-azure-file-sync/"],
+    ["2026-07-16", "Detect and Remediate an AD CS ESC1 Certificate Template (Step-by-Step Lab)", "/posts/Detect-and-Remediate-an-AD-CS-ESC1/"],
     ["2026-07-09", "Deploy a Group Managed Service Account (gMSA) for a Scheduled Task (Step-by-Step Lab)", "/posts/deploy-gmsa-scheduled-task/"],
     ["2026-04-22", "Fix Windows UUID/SID Conflict in EVE-NG Labs (Domain Join Issue)", "/posts/fix-windows-uuid-sid-conflict-eve-ng/"],
     ["2025-10-23", "Windows Hello for Business in a Hybrid Environment: Key Trust + MFA Deployment", "/posts/windows-hello-for-business-hybrid/"],
@@ -156,6 +158,50 @@
       ]);
     },
     "exp": function () { commands.experience(); },
+
+    "cheatsheet": function (arg) {
+      if (!arg) { commands.cheatsheets(); return; }
+      var want = arg.toLowerCase();
+      fetch("/cheatsheet/index.json", { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (list) {
+          var hit = list.filter(function (c) {
+            return c.slug.toLowerCase() === want || c.title.toLowerCase().indexOf(want) !== -1;
+          })[0];
+          if (!hit) {
+            print("[r][!][/r] no cheat sheet named [w]" + arg + "[/w] — try [g]cheatsheets[/g]");
+            return;
+          }
+          print("[g][+][/g] opening [w]" + hit.title + "[/w] …");
+          window.open(hit.url, "_blank", "noopener");
+        })
+        .catch(function () { print("[r][!][/r] cheat sheet index unreachable"); });
+    },
+
+    "cheatsheets": function () {
+      print("");
+      fetch("/cheatsheet/index.json", { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (list) {
+          print("[w]Cheat sheets[/w] [d](" + list.length + ")[/d]");
+          print("");
+          var byCat = {};
+          list.forEach(function (c) { (byCat[c.category] = byCat[c.category] || []).push(c); });
+          Object.keys(byCat).sort().forEach(function (cat) {
+            print("  [d]" + cat + "[/d]");
+            byCat[cat].forEach(function (c) {
+              print("    [g]" + c.slug + "[/g]  [w]" + c.title + "[/w]");
+            });
+          });
+          print("");
+          print("[d]type[/d] [g]cheatsheet <name>[/g] [d]to open one[/d]");
+          print("");
+        })
+        .catch(function () {
+          print("[y][!][/y] index unreachable — browse [u:/cheatsheet/]/cheatsheet/[/u]");
+          print("");
+        });
+    },
 
     "cv": function () {
       print("[g][+][/g] fetching Mahmud_Elgoueri_CV.pdf …");
@@ -254,7 +300,7 @@
         "PowerShell, enable CA auditing, and remove ENROLLEE_SUPPLIES_SUBJECT —",
         "with verification at every step.",
         "",
-        "[d]→[/d] [u:" + BLOG + "/posts/deploy-hybrid-file-share-azure-file-sync/]read the lab[/u]",
+        "[d]→[/d] [u:" + BLOG + "/posts/Detect-and-Remediate-an-AD-CS-ESC1/]read the lab[/u]",
         ""
       ]);
     },
@@ -332,7 +378,7 @@
       print("[r]mahmud is not in the sudoers file. This incident will be reported.[/r]");
     },
     "ls": function () {
-      print("[g]whoami[/g]  [g]experience[/g]  [g]skills[/g]  [g]projects[/g]  [g]certs[/g]  [g]cv[/g]  [g]topics[/g]  [g]posts[/g]  [g]featured[/g]  [g]ctf[/g]  [g]social[/g]  [g]contact[/g]");
+      print("[g]whoami[/g]  [g]experience[/g]  [g]skills[/g]  [g]projects[/g]  [g]certs[/g]  [g]cv[/g]  [g]cheatsheets[/g]  [g]topics[/g]  [g]posts[/g]  [g]featured[/g]  [g]ctf[/g]  [g]social[/g]  [g]contact[/g]");
     },
     "pwd": function () { print("/home/mahmud/landing"); },
     "date": function () { print(new Date().toString()); },

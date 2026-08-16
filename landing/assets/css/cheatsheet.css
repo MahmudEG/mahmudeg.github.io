@@ -1,0 +1,245 @@
+/* ============================================================
+   Cheat sheets — index + individual sheet pages.
+   Loads after style.css and reuses its tokens (--accent, --surface…).
+   ============================================================ */
+
+.cs-body { background: var(--bg); }
+.cs-body .nav__links a { color: var(--text-dim); }
+.cs-body .nav__links a[aria-current="page"] { color: var(--accent); }
+/* only three links here — keep them all visible on small screens */
+@media (max-width: 940px) {
+  .cs-body .nav__links a:not(.nav__blog-link) { display: inline-block; }
+}
+
+/* ---------- index ---------- */
+.cs-index {
+  max-width: 1140px; margin: 0 auto;
+  padding: calc(var(--nav-h) + 56px) clamp(16px, 4vw, 40px) 40px;
+}
+.cs-index__head { margin-bottom: var(--space-5); }
+.cs-index__lede { color: var(--text-dim); max-width: 60ch; margin-top: var(--space-2); }
+
+.cs-controls {
+  margin-top: var(--space-4);
+  display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;
+}
+.cs-search {
+  display: flex; align-items: center; gap: 10px; flex: 1 1 320px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0 14px; color: var(--text-dim);
+  transition: border-color 0.2s;
+}
+.cs-search:focus-within { border-color: var(--accent); color: var(--accent); }
+.cs-search input {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--text); font-size: 13.5px; padding: 13px 0;
+}
+.cs-search input::placeholder { color: var(--text-dim); }
+
+.cs-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.cs-chip {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+  background: var(--surface); color: var(--text-dim);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 9px 15px; cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.cs-chip span { opacity: 0.55; margin-left: 4px; }
+.cs-chip:hover { color: var(--accent); border-color: rgba(0, 230, 138, 0.45); }
+.cs-chip.is-active {
+  color: var(--accent); border-color: var(--accent); background: var(--accent-dim);
+}
+
+.cs-group { margin-bottom: var(--space-5); }
+.cs-group[hidden] { display: none; }
+.cs-group__title {
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: var(--space-2);
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.cs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+
+.cs-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: var(--space-3); display: flex; flex-direction: column; gap: 12px;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.3s;
+}
+.cs-card[hidden] { display: none; }
+.cs-card:hover {
+  transform: translateY(-5px); border-color: rgba(0, 230, 138, 0.5);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+.cs-card__top { display: flex; align-items: center; gap: 10px; }
+.cs-card__dot {
+  width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: var(--accent); box-shadow: 0 0 10px var(--accent);
+}
+.cs-card h3 { font-size: 18px; font-weight: 700; }
+.cs-card p { color: var(--text-dim); font-size: 13.5px; flex: 1; }
+.cs-card__foot {
+  display: flex; justify-content: space-between; gap: 10px;
+  font-size: 10.5px; color: var(--text-dim);
+  border-top: 1px solid var(--border); padding-top: 10px;
+}
+.cs-card__tags { color: var(--accent); opacity: 0.8; }
+.cs-empty { text-align: center; color: var(--text-dim); padding: var(--space-5) 0; }
+
+/* ---------- sheet page ---------- */
+.cs-page {
+  max-width: 1140px; margin: 0 auto;
+  padding: calc(var(--nav-h) + 40px) clamp(16px, 4vw, 40px) 40px;
+  display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: var(--space-5);
+  align-items: start;
+}
+.cs-toc { position: sticky; top: calc(var(--nav-h) + 28px); }
+.cs-toc__label {
+  font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 12px;
+}
+.cs-toc nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--border); }
+.cs-toc a {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+  padding: 5px 0 5px 14px; margin-left: -1px;
+  border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+}
+.cs-toc a:hover { color: var(--accent); }
+.cs-toc a.is-active { color: var(--accent); border-left-color: var(--accent); }
+
+.cs-crumb { font-size: 11.5px; color: var(--text-dim); margin-bottom: var(--space-3); }
+.cs-crumb a { color: var(--text-dim); }
+.cs-crumb a:hover { color: var(--accent); }
+.cs-crumb span { margin: 0 4px; }
+
+.cs-head { border-bottom: 1px solid var(--border); padding-bottom: var(--space-3); margin-bottom: var(--space-4); }
+.cs-head h1 {
+  font-size: clamp(32px, 5vw, 50px); font-weight: 900;
+  letter-spacing: -0.015em; margin: 12px 0 10px;
+}
+.cs-head__desc { color: var(--text-dim); max-width: 62ch; }
+.cs-head__meta { font-size: 11px; color: var(--text-dim); margin-top: var(--space-2); }
+
+/* content */
+.cs-content { max-width: 78ch; }
+.cs-content h2 {
+  font-size: 25px; font-weight: 800; margin: var(--space-5) 0 var(--space-2);
+  padding-top: 6px; scroll-margin-top: calc(var(--nav-h) + 20px);
+}
+.cs-content h2::before {
+  content: "# "; color: var(--accent); font-family: var(--font-mono); font-weight: 400;
+}
+.cs-content h3 {
+  font-size: 18px; font-weight: 700; margin: var(--space-4) 0 12px;
+  scroll-margin-top: calc(var(--nav-h) + 20px);
+}
+.cs-content p { color: var(--text-dim); margin-bottom: var(--space-2); }
+.cs-content strong { color: var(--text); }
+.cs-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.cs-content ul, .cs-content ol { margin: 0 0 var(--space-2) 22px; color: var(--text-dim); }
+.cs-content li { margin-bottom: 6px; }
+.cs-content li::marker { color: var(--accent); }
+
+/* callouts: > quote {: .tip } / {: .warn } */
+.cs-content blockquote {
+  border-left: 3px solid var(--accent); background: var(--accent-dim);
+  border-radius: 0 8px 8px 0; padding: 14px 18px; margin: var(--space-3) 0;
+}
+.cs-content blockquote p { color: var(--text); margin: 0; font-size: 14.5px; }
+.cs-content blockquote.warn { border-left-color: #ffbd2e; background: rgba(255, 189, 46, 0.09); }
+.cs-content p.warn {
+  border-left: 3px solid #ffbd2e; background: rgba(255, 189, 46, 0.09);
+  border-radius: 0 8px 8px 0; padding: 14px 18px; color: var(--text); font-size: 14.5px;
+}
+
+/* tables */
+.cs-content table {
+  width: 100%; border-collapse: collapse; margin: var(--space-3) 0;
+  font-size: 14px; display: block; overflow-x: auto;
+}
+.cs-content th, .cs-content td {
+  border: 1px solid var(--border); padding: 10px 14px; text-align: left;
+}
+.cs-content th {
+  background: var(--surface-2); color: var(--accent);
+  font-family: var(--font-mono); font-size: 11.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.cs-content td { color: var(--text-dim); }
+.cs-content tbody tr:nth-child(odd) { background: rgba(255, 255, 255, 0.015); }
+
+/* inline code */
+.cs-content :not(pre) > code {
+  font-family: var(--font-mono); font-size: 0.86em;
+  background: var(--accent-dim); color: var(--accent-bright);
+  padding: 2px 6px; border-radius: 4px;
+}
+
+/* code blocks */
+/* div.highlighter-rouge is the block wrapper; inline <code> carries the same
+   class, so every rule here is scoped to the div to avoid hitting inline code. */
+.cs-content div.highlighter-rouge { position: relative; margin: var(--space-2) 0 var(--space-3); }
+.cs-content .highlight {
+  background: #0c0f0d; border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden;
+}
+.cs-content pre.highlight {
+  background: none; border: none; margin: 0;
+  padding: 16px 18px; overflow-x: auto;
+  font-family: var(--font-mono); font-size: 13px; line-height: 1.75;
+  color: #cfd8d3;
+}
+.cs-content pre.highlight > code { display: block; background: none; padding: 0; }
+/* Chirpy turns on line numbers globally (kramdown block.line_numbers). They add
+   nothing to a cheat sheet and break copy-paste, so the gutter column is hidden
+   and the inner <pre> is flattened back to the outer block's padding. */
+.cs-content .rouge-table { border: none; margin: 0; display: table; width: 100%; }
+.cs-content .rouge-table td { border: none; padding: 0; vertical-align: top; }
+.cs-content .rouge-table tbody tr { background: none; }
+.cs-content .rouge-table .rouge-gutter { display: none; }
+.cs-content .rouge-table .rouge-code pre {
+  margin: 0; padding: 0; background: none; border: none; overflow: visible;
+}
+
+.cs-copy {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em;
+  background: var(--surface-2); color: var(--text-dim);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 5px 10px; cursor: pointer; opacity: 0;
+  transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+}
+.cs-content div.highlighter-rouge:hover .cs-copy,
+.cs-copy:focus-visible { opacity: 1; }
+.cs-copy:hover { color: var(--accent); border-color: var(--accent); }
+.cs-copy.is-done { color: var(--accent); border-color: var(--accent); opacity: 1; }
+
+/* rouge syntax theme — terminal green family */
+.cs-content .highlight .c, .cs-content .highlight .c1,
+.cs-content .highlight .cm, .cs-content .highlight .cd { color: #5d6b64; font-style: italic; }
+.cs-content .highlight .k, .cs-content .highlight .kd,
+.cs-content .highlight .kn, .cs-content .highlight .kr { color: #49ffb2; }
+.cs-content .highlight .s, .cs-content .highlight .s1,
+.cs-content .highlight .s2, .cs-content .highlight .se { color: #e5c07b; }
+.cs-content .highlight .nb, .cs-content .highlight .nf,
+.cs-content .highlight .nt { color: #00e68a; }
+.cs-content .highlight .nv, .cs-content .highlight .vg { color: #7fd6ff; }
+.cs-content .highlight .m, .cs-content .highlight .mi,
+.cs-content .highlight .mf { color: #d19a66; }
+.cs-content .highlight .o, .cs-content .highlight .ow { color: #9aa5a0; }
+.cs-content .highlight .err { color: var(--danger); background: none; }
+
+.cs-foot { margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px solid var(--border); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1024px) {
+  .cs-grid { grid-template-columns: 1fr 1fr; }
+  .cs-page { grid-template-columns: 1fr; gap: var(--space-3); }
+  .cs-toc { display: none; }
+}
+@media (max-width: 640px) {
+  .cs-grid { grid-template-columns: 1fr; }
+  .cs-content .highlight pre { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-card, .cs-copy { transition: none; }
+}

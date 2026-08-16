@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="noob">
+<head>
+  {%- assign cs_title = page.title | append: " Cheat Sheet — Mahmud Elgoueri" -%}
+  {% include cheatsheet-head.html title=cs_title description=page.description %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": "{{ site.url }}{{ page.url }}#article",
+    "headline": {{ page.title | append: " Cheat Sheet" | jsonify }},
+    "description": {{ page.description | jsonify }},
+    "url": "{{ site.url }}{{ page.url }}",
+    "inLanguage": "en",
+    "dateModified": "{{ page.updated }}",
+    "author": { "@id": "{{ site.url }}/#person" },
+    "publisher": { "@id": "{{ site.url }}/#person" },
+    "isPartOf": { "@id": "{{ site.url }}/#website" },
+    "about": {{ page.tags | jsonify }},
+    "proficiencyLevel": "Expert"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" },
+      { "@type": "ListItem", "position": 2, "name": "Cheat Sheets", "item": "{{ site.url }}/cheatsheet/" },
+      { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }}, "item": "{{ site.url }}{{ page.url }}" }
+    ]
+  }
+  </script>
+</head>
+<body class="cs-body">
+
+  <header class="nav">
+    <a class="nav__logo" href="/" aria-label="Home">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="7" stroke="var(--accent)" stroke-width="2"/>
+        <path d="M8 21V11l4.5 6L17 11v10" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20.5 21h4" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <span class="nav__logo-text">mahmud<span class="accent">_eg</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/cheatsheet/">Cheat Sheets</a>
+      <a href="{{ site.url }}/blog/" class="nav__blog-link">Blog
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </nav>
+  </header>
+
+  <main class="cs-page">
+    <aside class="cs-toc" id="cs-toc" aria-label="On this page">
+      <p class="cs-toc__label mono">on this page</p>
+      <nav id="cs-toc-list"></nav>
+    </aside>
+
+    <article class="cs-article">
+      <nav class="cs-crumb mono" aria-label="Breadcrumb">
+        <a href="/">home</a> <span aria-hidden="true">/</span>
+        <a href="/cheatsheet/">cheatsheet</a> <span aria-hidden="true">/</span>
+        <span class="accent">{{ page.slug }}</span>
+      </nav>
+
+      <header class="cs-head">
+        <span class="chip chip--hot mono">{{ page.category }}</span>
+        <h1>{{ page.title }}</h1>
+        <p class="cs-head__desc">{{ page.description }}</p>
+        <p class="cs-head__meta mono">
+          updated {{ page.updated }}
+          {%- if page.tags %} · {{ page.tags | join: " · " }}{% endif -%}
+        </p>
+      </header>
+
+      <div class="cs-content" id="cs-content">
+        {{ content }}
+      </div>
+
+      <footer class="cs-foot">
+        <a class="btn btn--ghost" href="/cheatsheet/">← All cheat sheets</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p class="mono">© {{ 'now' | date: "%Y" }} Mahmud Elgoueri</p>
+    <p class="mono footer__hint"><a href="/">back to the main site</a></p>
+  </footer>
+
+  <script src="/assets/js/cheatsheet.js?v=1" defer></script>
+</body>
+</html>

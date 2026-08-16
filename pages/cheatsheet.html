@@ -1,0 +1,118 @@
+---
+permalink: /cheatsheet/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en" data-mode="noob">
+<head>
+  {% include cheatsheet-head.html title="Cheat Sheets — Mahmud Elgoueri" description="Working reference sheets for infrastructure and security tooling — FortiGate, Active Directory, PowerShell, and more. Commands, not theory." %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "{{ site.url }}/cheatsheet/#collection",
+    "url": "{{ site.url }}/cheatsheet/",
+    "name": "Cheat Sheets",
+    "description": "Working reference sheets for infrastructure and security tooling.",
+    "inLanguage": "en",
+    "author": { "@id": "{{ site.url }}/#person" },
+    "isPartOf": { "@id": "{{ site.url }}/#website" },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": {{ site.cheatsheets | size }},
+      "itemListElement": [
+        {%- assign sorted = site.cheatsheets | sort: "title" -%}
+        {%- for cs in sorted %}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.index }},
+          "name": {{ cs.title | append: " Cheat Sheet" | jsonify }},
+          "url": "{{ site.url }}{{ cs.url }}"
+        }{% unless forloop.last %},{% endunless %}
+        {%- endfor %}
+      ]
+    }
+  }
+  </script>
+</head>
+<body class="cs-body">
+
+  <header class="nav">
+    <a class="nav__logo" href="/" aria-label="Home">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="7" stroke="var(--accent)" stroke-width="2"/>
+        <path d="M8 21V11l4.5 6L17 11v10" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20.5 21h4" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <span class="nav__logo-text">mahmud<span class="accent">_eg</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/cheatsheet/" aria-current="page">Cheat Sheets</a>
+      <a href="{{ site.url }}/blog/" class="nav__blog-link">Blog
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </nav>
+  </header>
+
+  <main class="cs-index">
+    <header class="cs-index__head">
+      <p class="section__label mono">// reference</p>
+      <h1 class="section__title">Cheat Sheets</h1>
+      <p class="cs-index__lede">
+        The commands I actually reach for, written down so I stop looking them up twice.
+        Copy-pasteable, no theory.
+      </p>
+
+      <div class="cs-controls">
+        <label class="cs-search" for="cs-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input type="search" id="cs-search" class="mono" placeholder="filter by name, tag, or command…" autocomplete="off">
+        </label>
+        <div class="cs-filters mono" id="cs-filters" role="group" aria-label="Filter by category">
+          <button class="cs-chip is-active" data-cat="all" type="button">all <span>{{ site.cheatsheets | size }}</span></button>
+          {%- assign cats = site.cheatsheets | map: "category" | uniq | sort -%}
+          {%- for cat in cats -%}
+            {%- assign inCat = site.cheatsheets | where: "category", cat -%}
+          <button class="cs-chip" data-cat="{{ cat | slugify }}" type="button">{{ cat }} <span>{{ inCat | size }}</span></button>
+          {%- endfor -%}
+        </div>
+      </div>
+    </header>
+
+    {%- assign cats = site.cheatsheets | map: "category" | uniq | sort -%}
+    {%- for cat in cats -%}
+      {%- assign inCat = site.cheatsheets | where: "category", cat | sort: "title" -%}
+    <section class="cs-group" data-group="{{ cat | slugify }}">
+      <h2 class="cs-group__title mono">{{ cat }}</h2>
+      <div class="cs-grid">
+        {%- for cs in inCat %}
+        <a class="cs-card" href="{{ cs.url }}"
+           data-cat="{{ cat | slugify }}"
+           data-search="{{ cs.title | downcase }} {{ cs.tags | join: ' ' | downcase }} {{ cs.description | downcase }}">
+          <div class="cs-card__top">
+            <span class="cs-card__dot" aria-hidden="true"></span>
+            <h3>{{ cs.title }}</h3>
+          </div>
+          <p>{{ cs.description }}</p>
+          <div class="cs-card__foot mono">
+            <span class="cs-card__tags">{{ cs.tags | join: " · " }}</span>
+            <span class="cs-card__date">{{ cs.updated }}</span>
+          </div>
+        </a>
+        {%- endfor %}
+      </div>
+    </section>
+    {%- endfor -%}
+
+    <p class="cs-empty mono" id="cs-empty" hidden>no cheat sheet matches that filter.</p>
+  </main>
+
+  <footer class="footer">
+    <p class="mono">© {{ 'now' | date: "%Y" }} Mahmud Elgoueri</p>
+    <p class="mono footer__hint"><a href="/">back to the main site</a></p>
+  </footer>
+
+  <script src="/assets/js/cheatsheet.js?v=1" defer></script>
+</body>
+</html>

@@ -174,6 +174,11 @@ collections:
   tabs:
     output: true
     sort_by: order
+  # Cheat sheets. Built here, then relocated from /blog/cheatsheet to the site
+  # root by tools/assemble-site.sh so they live at /cheatsheet/<slug>/.
+  cheatsheets:
+    output: true
+    permalink: /cheatsheet/:slug/
 
 defaults:
   - scope:
@@ -196,6 +201,14 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: cheatsheets
+    values:
+      layout: cheatsheet
+      # Excluded from the blog sitemap: jekyll-sitemap would emit the pre-move
+      # /blog/cheatsheet/... URL. They are listed in /sitemap-pages.xml instead.
+      sitemap: false
 
 sass:
   style: compressed

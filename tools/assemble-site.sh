@@ -17,6 +17,14 @@ ORIGIN="https://mahmudeg.github.io"
 # 1. Landing page at the root
 cp -r landing/. "$SITE/"
 
+# 1b. Cheat sheets. Jekyll builds them under /blog because that is its baseurl,
+# but they belong at /cheatsheet/. Move them before step 2 so the redirect-stub
+# pass doesn't mistake them for relocated blog pages.
+if [ -d "$SITE/blog/cheatsheet" ]; then
+  rm -rf "$SITE/cheatsheet"
+  mv "$SITE/blog/cheatsheet" "$SITE/cheatsheet"
+fi
+
 # 2. Redirect stubs: every /blog/**/index.html gets a stub at the old root path
 stub_count=0
 while IFS= read -r f; do
@@ -51,17 +59,22 @@ cp -r "$SITE/blog/assets/img/favicons" "$SITE/assets/img/" 2>/dev/null || true
 # sitemap, and a sitemap index at the root ties both together for search engines.
 TODAY="$(date -u +%Y-%m-%d)"
 
-cat > "$SITE/sitemap-pages.xml" <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>$ORIGIN/</loc>
-    <lastmod>$TODAY</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-</urlset>
-EOF
+{
+  echo '<?xml version="1.0" encoding="UTF-8"?>'
+  echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+  printf '  <url><loc>%s/</loc><lastmod>%s</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>\n' \
+    "$ORIGIN" "$TODAY"
+  if [ -d "$SITE/cheatsheet" ]; then
+    printf '  <url><loc>%s/cheatsheet/</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n' \
+      "$ORIGIN" "$TODAY"
+    for dir in "$SITE"/cheatsheet/*/; do
+      [ -f "${dir}index.html" ] || continue
+      printf '  <url><loc>%s/cheatsheet/%s/</loc><lastmod>%s</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n' \
+        "$ORIGIN" "$(basename "$dir")" "$TODAY"
+    done
+  fi
+  echo '</urlset>'
+} > "$SITE/sitemap-pages.xml"
 
 cat > "$SITE/sitemap.xml" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
